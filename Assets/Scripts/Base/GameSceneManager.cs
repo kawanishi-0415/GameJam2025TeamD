@@ -14,7 +14,7 @@ public class GameSceneManager : MonoBehaviour
         RESULT,
     }
     private GameState m_State = GameState.TITLE;
-    private string[] m_SceneName = { "Title", "Stage", "Game" };
+    private string[] m_SceneName = { "Title", "Stage", "Result" };
     private bool m_IsFadeing = false;
 
     private void Awake()
