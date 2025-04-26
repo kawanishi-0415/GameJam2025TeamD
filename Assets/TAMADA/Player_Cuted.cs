@@ -5,6 +5,8 @@ public class Player_Cuted : MonoBehaviour
     [SerializeField] private float moveSpeed = 5f;   // 進む速さ
     [SerializeField] private float jumpForce = 10f;  // ジャンプの強さ
     [SerializeField] private KeyCode jumpKey = KeyCode.Space; // ジャンプするキーをインスペクターで選択
+    [SerializeField] private GameObject objectToShow;  // 表示するオブジェクト
+    [SerializeField] private Vector3 spawnPosition;  // 表示オブジェクトのスポーン位置
 
     private Rigidbody2D rb;  // Rigidbody2Dコンポーネント
     private Camera mainCamera; // メインカメラ
@@ -54,5 +56,25 @@ public class Player_Cuted : MonoBehaviour
         // 下には出てもいいので、yが小さくなるのは自由！
 
         transform.position = pos;
+
+        // 画面外に出た場合、ゲームオーバー処理
+        if (pos.y < min.y)  // 画面の下に出たら
+        {
+            StageManager.Instance.SetGameOver();
+        }
+    }
+
+    // Linkメソッドで指定したオブジェクトを表示し、その後このオブジェクトを非表示にする
+    public void Link()
+    {
+        if (objectToShow != null)
+        {
+            // objectToShowの位置を指定したオブジェクトの位置に設定
+            objectToShow.transform.position = transform.position;  // ここで現在のプレイヤーの位置に設定
+            objectToShow.SetActive(true);  // オブジェクトを表示
+        }
+
+        // このオブジェクトを非表示にする
+        gameObject.SetActive(false);
     }
 }

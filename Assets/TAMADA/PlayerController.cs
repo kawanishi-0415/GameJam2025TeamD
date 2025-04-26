@@ -1,5 +1,5 @@
 using UnityEngine;
-using System.Collections.Generic;
+using System.Collections;
 
 public class PlayerController : MonoBehaviour
 {
@@ -11,6 +11,9 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField] private Rigidbody2D rb;
     [SerializeField] private BoxCollider2D boxCollider;
+
+    [Header("非表示にしておくオブジェクト4つ")]
+    [SerializeField] private GameObject[] hiddenObjects = new GameObject[4];
 
     private bool isGrounded;
     private bool isCrouching;
@@ -39,6 +42,9 @@ public class PlayerController : MonoBehaviour
             originalColliderSize = boxCollider.size;
             originalColliderOffset = boxCollider.offset;
         }
+
+        // 最初はすべて非表示
+        SetObjectsActive(false);
     }
 
     void Update()
@@ -84,6 +90,12 @@ public class PlayerController : MonoBehaviour
             isCrouching = false;
             ResetCrouch();
         }
+
+        // Pキーが押されたときにCutメソッドを呼び出す
+       // if (Input.GetKeyDown(KeyCode.P))
+       // {
+       //     Cut();
+      //  }
 
         ClampPositionAndCheckFall();
     }
@@ -144,6 +156,43 @@ public class PlayerController : MonoBehaviour
         {
             boxCollider.size = originalColliderSize;
             boxCollider.offset = originalColliderOffset;
+        }
+    }
+
+    // Cutメソッド（非表示のオブジェクトを表示した後にPlayerControllerのオブジェクトを非表示）
+    public void Cut()
+    {
+        if (hiddenObjects == null || hiddenObjects.Length == 0)
+        {
+            Debug.LogWarning("表示させるオブジェクトが設定されていません！");
+            return;
+        }
+
+        // 非表示のオブジェクトを再表示
+        SetObjectsActive(true);
+
+        // 表示されるオブジェクトの位置を現在のオブジェクトの位置に設定
+        foreach (GameObject obj in hiddenObjects)
+        {
+            if (obj != null)
+            {
+                obj.transform.position = transform.position; // 現在のオブジェクトの位置に設定
+            }
+        }
+
+        // PlayerControllerが付いているオブジェクトを非表示
+        gameObject.SetActive(false); // このオブジェクト（PlayerControllerが付いているもの）を非表示
+    }
+
+    // オブジェクトの表示/非表示を設定
+    private void SetObjectsActive(bool isActive)
+    {
+        foreach (GameObject obj in hiddenObjects)
+        {
+            if (obj != null)
+            {
+                obj.SetActive(isActive);
+            }
         }
     }
 }
