@@ -140,7 +140,8 @@ public class StageManager : MonoBehaviour
 
         if (CheckAllClear())
         {
-            ReloadCurrentScene();
+            GameSceneManager gameSceneManager = FindObjectOfType<GameSceneManager>();
+            gameSceneManager.ChangeScene(GameSceneManager.GameState.RESULT);
         }
         else
         {
