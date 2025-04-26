@@ -1,22 +1,21 @@
 using UnityEditor;
 using UnityEngine;
 
-[CustomEditor(typeof(StageManager))]
-public class StageManagerInspector : Editor
+[CustomEditor(typeof(StageSceneController))]
+public class StageSceneControllerInspector : Editor
 {
     public override void OnInspectorGUI()
     {
         DrawDefaultInspector(); // 通常のInspectorも表示
 
-        StageManager script = (StageManager)target;
         if (GUILayout.Button("Game Over"))
         {
-            script.SetGameOver();
+            StageManager.Instance.SetGameOver();
         }
 
         if (GUILayout.Button("Game Clear"))
         {
-            script.SetGameClear();
+            StageManager.Instance.SetGameClear();
         }
     }
 }

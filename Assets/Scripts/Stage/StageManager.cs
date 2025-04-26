@@ -140,7 +140,7 @@ public class StageManager : MonoBehaviour
 
         if (CheckAllClear())
         {
-
+            ReloadCurrentScene();
         }
         else
         {
