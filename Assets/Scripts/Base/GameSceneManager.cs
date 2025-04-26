@@ -5,25 +5,31 @@ using UnityEngine.SceneManagement;
 
 public class GameSceneManager : MonoBehaviour
 {
-    
-    private static GameSceneManager m_Instance = null;
+
+    public static GameSceneManager Instance { get; private set; }
     public enum GameState
     {
-        INIT,
         TITLE,
-        GAME,
+        STAGE,
+        RESULT,
     }
-    private GameState m_State = GameState.INIT;
-    private string[] m_SceneName = { "", "Title", "Stage"};
+    private GameState m_State = GameState.TITLE;
+    private string[] m_SceneName = { "Title", "Stage", "Game" };
+    private bool m_IsFadeing = false;
 
-    public static GameSceneManager GetInstance()
+    private void Awake()
     {
-        if (m_Instance == null)
+        if (Instance == null)
         {
-            m_Instance = new GameSceneManager();
+            Instance = this;
+            DontDestroyOnLoad(gameObject); // シーンをまたいでも破棄されない
+        }
+        else
+        {
+            Destroy(gameObject); // 2個目以降は自動で破棄する
         }
 
-        return m_Instance;
+        DontDestroyOnLoad(Instance);
     }
 
     // シーン遷移(同期)
@@ -32,9 +38,30 @@ public class GameSceneManager : MonoBehaviour
         SceneManager.LoadScene(sceneName);
     }
 
+    // シーン遷移(フェードアウト終了後に遷移)
     public void ChangeScene(GameState state)
     {
+        if (m_IsFadeing)
+        {
+            return;
+        }
+        m_IsFadeing = true;
+        FadeManager.Instance.FadeOut();
+        StartCoroutine(WaitFade(state));
+    }
+
+    // フェード待機
+    private IEnumerator WaitFade(GameState state)
+    {
+        // フェード待機
+        while (FadeManager.Instance.Status == FadeManager.EnumStatus.Fading)
+        {
+            yield return null;
+        }
+
+        m_State = state;
         LoadScene(m_SceneName[(int)state]);
+        m_IsFadeing = false;
     }
 
 }

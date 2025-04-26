@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 17d244e76dbc6144ba1a961494c40f60, type: 3}
+  m_Name: SO_StageData1
+  m_EditorClassIdentifier: 
+  stageNumber: 1
+  stageName: Stage1
+  playerStartPosition: {x: 0, y: 2}
+  scrollSpeed: 1
+  timeLimit: 999
+  stagePrefab: {fileID: 270198009944538443, guid: db7aa8f98c3595c499166c33773b8b7d, type: 3}
