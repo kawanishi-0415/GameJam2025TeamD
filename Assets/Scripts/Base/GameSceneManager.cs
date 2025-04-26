@@ -14,16 +14,13 @@ public class GameSceneManager : MonoBehaviour
         RESULT,
     }
     private GameState m_State = GameState.TITLE;
-    private string[] m_SceneName = { "", "Title", "Stage"};
+    private string[] m_SceneName = { "Title", "Stage", "Game"};
 
-    public static GameSceneManager GetInstance()
+    private void Awake()
     {
-        if (m_Instance == null)
-        {
-            m_Instance = new GameSceneManager();
-        }
+        m_Instance = this;
 
-        return m_Instance;
+        DontDestroyOnLoad(m_Instance);
     }
 
     // ƒV[ƒ“‘JˆÚ(“¯Šú)
