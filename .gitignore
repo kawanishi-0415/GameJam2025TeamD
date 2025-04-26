@@ -53,3 +53,7 @@ sysinfo.txt
 # *.psd filter=lfs diff=lfs merge=lfs -text
 
 # ========== ここまで ==========
+Logs/AssetImportWorker0.log
+/Logs
+/Logs
+/Logs
