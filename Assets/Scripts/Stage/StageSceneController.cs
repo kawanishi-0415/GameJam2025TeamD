@@ -1,15 +1,29 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using UnityEditor.U2D.Aseprite;
 using UnityEngine;
 
 public class StageSceneController : MonoBehaviour
 {
+    public static StageSceneController Instance { get; private set; }
+
+    private Camera m_camera = null;
+    private PlayerController m_playerObj = null;
+
     [SerializeField] private Vector3 m_startCameraPos = new Vector3(0f, 0f, -10f);
     [SerializeField] private TextMeshProUGUI m_stageText = null;
     [SerializeField] private TextMeshProUGUI m_timeText = null;
+    [SerializeField] private PlayerController m_playerPrefab = null;
+    public PlayerController PlayerPrefab { get { return m_playerPrefab; } }
 
-    private Camera m_camera = null;
+    private void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+    }
 
     void Start()
     {
@@ -27,6 +41,19 @@ public class StageSceneController : MonoBehaviour
         // UI表示
         DispStageText();
         DispTimeText();
+    }
+
+    public void CreatePlayer(Vector2 startPosition)
+    {
+        if (m_playerObj != null)
+            Destroy(m_playerObj.gameObject);
+
+        m_playerObj = Instantiate(StageSceneController.Instance.PlayerPrefab);
+        m_playerObj.transform.position = startPosition;
+    }
+
+    public void ChangeOperation()
+    {
     }
 
     private void DispStageText()
