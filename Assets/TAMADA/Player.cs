@@ -1,6 +1,7 @@
 using UnityEngine;
+using System.Collections.Generic;
 
-public class Player : MonoBehaviour
+public class PlayerController : MonoBehaviour
 {
     public float moveSpeed = 5f;
     public float normalJumpForce = 10f;
@@ -19,10 +20,14 @@ public class Player : MonoBehaviour
     private Vector2 originalColliderSize;
     private Vector2 originalColliderOffset;
 
+    // 設定した操作ボタン
     private KeyCode moveLeftKey = KeyCode.A;
     private KeyCode moveRightKey = KeyCode.F;
     private KeyCode jumpKey = KeyCode.J;
     private KeyCode crouchKey = KeyCode.L;
+
+    // 操作ボタンのリスト
+    private List<KeyCode> actionKeys;
 
     void Start()
     {
@@ -36,10 +41,19 @@ public class Player : MonoBehaviour
             originalColliderSize = boxCollider.size;
             originalColliderOffset = boxCollider.offset;
         }
+
+        // 初期設定の操作ボタンをリストに格納
+        actionKeys = new List<KeyCode> { moveLeftKey, moveRightKey, jumpKey, crouchKey };
     }
 
     void Update()
     {
+        // スペースキーが押されたときに操作ボタンを変更
+       // if (Input.GetKeyDown(KeyCode.Space))
+       // {
+       //     ChangeControlButtons();
+       // }
+
         // 地面チェック
         isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer);
 
@@ -113,34 +127,29 @@ public class Player : MonoBehaviour
     // 操作ボタンをランダムに入れ替えるメソッド
     public void ChangeControlButtons()
     {
-        KeyCode[] allKeys = (KeyCode[])System.Enum.GetValues(typeof(KeyCode));
-        KeyCode newMoveLeftKey = allKeys[Random.Range(0, allKeys.Length)];
-        KeyCode newMoveRightKey = allKeys[Random.Range(0, allKeys.Length)];
-        KeyCode newJumpKey = allKeys[Random.Range(0, allKeys.Length)];
-        KeyCode newCrouchKey = allKeys[Random.Range(0, allKeys.Length)];
+        // ボタンリストの順番をシャッフル
+        Shuffle(actionKeys);
 
-        // 同じキーが入らないようにチェック
-        while (newMoveLeftKey == newMoveRightKey || newMoveLeftKey == newJumpKey || newMoveLeftKey == newCrouchKey)
-        {
-            newMoveLeftKey = allKeys[Random.Range(0, allKeys.Length)];
-        }
+        // リストからランダムに順番を変えたボタンを設定
+        moveLeftKey = actionKeys[0];
+        moveRightKey = actionKeys[1];
+        jumpKey = actionKeys[2];
+        crouchKey = actionKeys[3];
 
-        while (newMoveRightKey == newJumpKey || newMoveRightKey == newCrouchKey)
-        {
-            newMoveRightKey = allKeys[Random.Range(0, allKeys.Length)];
-        }
-
-        while (newJumpKey == newCrouchKey)
-        {
-            newJumpKey = allKeys[Random.Range(0, allKeys.Length)];
-        }
-
-        moveLeftKey = newMoveLeftKey;
-        moveRightKey = newMoveRightKey;
-        jumpKey = newJumpKey;
-        crouchKey = newCrouchKey;
-
+        // 新しい操作ボタンをログに表示
         Debug.Log($"New Controls: Move Left - {moveLeftKey}, Move Right - {moveRightKey}, Jump - {jumpKey}, Crouch - {crouchKey}");
+    }
+
+    // リストをシャッフルするメソッド
+    private void Shuffle(List<KeyCode> list)
+    {
+        for (int i = 0; i < list.Count; i++)
+        {
+            KeyCode temp = list[i];
+            int randomIndex = Random.Range(i, list.Count);
+            list[i] = list[randomIndex];
+            list[randomIndex] = temp;
+        }
     }
 
     void OnDrawGizmosSelected()
