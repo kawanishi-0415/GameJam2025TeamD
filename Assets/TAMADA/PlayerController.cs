@@ -15,12 +15,12 @@ public class PlayerController : MonoBehaviour
     private bool isGrounded;
     private bool isCrouching;
     private float crouchStartTime;
+    private bool isGameOver = false;
 
     private Vector3 originalScale;
     private Vector2 originalColliderSize;
     private Vector2 originalColliderOffset;
 
-    // 初期設定の操作ボタン
     private KeyCode moveLeftKey = KeyCode.A;
     private KeyCode moveRightKey = KeyCode.F;
     private KeyCode jumpKey = KeyCode.J;
@@ -85,7 +85,7 @@ public class PlayerController : MonoBehaviour
             ResetCrouch();
         }
 
-        ClampPositionToCamera();
+        ClampPositionAndCheckFall();
     }
 
     private bool CheckGroundedByCollider()
@@ -96,7 +96,7 @@ public class PlayerController : MonoBehaviour
         return Physics2D.OverlapBox(bottomCenter, checkSize, 0f, groundLayer);
     }
 
-    private void ClampPositionToCamera()
+    private void ClampPositionAndCheckFall()
     {
         Vector3 pos = transform.position;
 
@@ -106,16 +106,23 @@ public class PlayerController : MonoBehaviour
         float halfWidth = boxCollider.bounds.extents.x;
         float halfHeight = boxCollider.bounds.extents.y;
 
-        // 左右はClampする
         pos.x = Mathf.Clamp(pos.x, min.x + halfWidth, max.x - halfWidth);
-
-        // 上だけClampする（下は自由に落下させる）
-        if (pos.y > max.y - halfHeight)
-        {
-            pos.y = max.y - halfHeight;
-        }
+        pos.y = Mathf.Clamp(pos.y, min.y - 100f, max.y - halfHeight);
 
         transform.position = pos;
+
+        if (!isGameOver && transform.position.y < min.y - 1f)
+        {
+            isGameOver = true;
+            if (StageManager.Instance != null)
+            {
+                StageManager.Instance.SetGameOver();
+            }
+            else
+            {
+                Debug.LogWarning("StageManager.Instance が存在しません！");
+            }
+        }
     }
 
     void StartCrouch()

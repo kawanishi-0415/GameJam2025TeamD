@@ -7,11 +7,14 @@ public class Player_Cuted : MonoBehaviour
     [SerializeField] private KeyCode jumpKey = KeyCode.Space; // ジャンプするキーをインスペクターで選択
 
     private Rigidbody2D rb;  // Rigidbody2Dコンポーネント
+    private Camera mainCamera; // メインカメラ
 
     void Start()
     {
         // Rigidbody2Dコンポーネントを取得
         rb = GetComponent<Rigidbody2D>();
+        // メインカメラを取得
+        mainCamera = Camera.main;
     }
 
     void Update()
@@ -24,5 +27,32 @@ public class Player_Cuted : MonoBehaviour
         {
             rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
         }
+
+        // カメラの外に出ないようにする（下方向だけ自由）
+        ClampPositionToCameraSidesAndTop();
+    }
+
+    private void ClampPositionToCameraSidesAndTop()
+    {
+        if (mainCamera == null) return;
+
+        Vector3 pos = transform.position;
+
+        // カメラの左下と右上位置を取得
+        Vector3 min = mainCamera.ViewportToWorldPoint(new Vector3(0, 0, mainCamera.nearClipPlane));
+        Vector3 max = mainCamera.ViewportToWorldPoint(new Vector3(1, 1, mainCamera.nearClipPlane));
+
+        // 左右だけClampする
+        pos.x = Mathf.Clamp(pos.x, min.x, max.x);
+
+        // 上方向だけClampする
+        if (pos.y > max.y)
+        {
+            pos.y = max.y;
+        }
+
+        // 下には出てもいいので、yが小さくなるのは自由！
+
+        transform.position = pos;
     }
 }
