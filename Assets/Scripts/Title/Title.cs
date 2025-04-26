@@ -12,7 +12,7 @@ public class Title : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        m_SceneManager = FindObjectOfType<GameSceneManager>();
+        m_SceneManager = GameSceneManager.Instance;
         FadeManager.Instance.FadeIn();
     }
 
