@@ -35,6 +35,7 @@ public class StageSceneController : MonoBehaviour
     [SerializeField] private Vector3 m_startCameraPos = new Vector3(0f, 0f, -10f);
     [SerializeField] private TextMeshProUGUI m_stageText = null;
     [SerializeField] private TextMeshProUGUI m_timeText = null;
+    [SerializeField] private OperationController m_operationControlelr = null;
     [SerializeField] private PlayerController m_playerPrefab = null;
     [SerializeField] private Canvas m_canvas = null;
     [SerializeField] private TimeOverWindow m_timeOverPrefab = null;
@@ -241,8 +242,12 @@ public class StageSceneController : MonoBehaviour
         m_playerObj.transform.position = startPosition;
     }
 
+    /// <summary>
+    /// 操作方法変更
+    /// </summary>
     public void ChangeOperation()
     {
+        m_operationControlelr.SetText();
     }
 
     private void DispStageText()
