@@ -1,0 +1,55 @@
+# ========== Unity用.gitignore ==========
+
+# OS固有の不要ファイル
+.DS_Store
+Thumbs.db
+
+# Unity固有の不要ファイル
+[Ll]ibrary/
+[Tt]emp/
+[Oo]bj/
+[Bb]uild/
+[Bb]uilds/
+Assets/AssetStoreTools*
+
+# メモリキャッシュやログ
+sysinfo.txt
+*.stackdump
+
+# Visual Studio関連ファイル
+.vscode/
+*.csproj
+*.unityproj
+*.sln
+*.suo
+*.tmp
+*.user
+*.userprefs
+
+# Rider関連ファイル
+.idea/
+*.sln.iml
+
+# Unityクラウドビルド用キャッシュ
+/Assets/StreamingAssets/UnityCloudBuildManifest.json
+
+# Android向けビルドのキャッシュ
+*.apk
+*.aab
+
+# iOS向けビルドのキャッシュ
+*.xcworkspace
+*.xcuserstate
+*.xcuserdata
+
+# その他除外したいもの
+*.pidb
+*.booproj
+
+# テスト環境や一時的な開発ブランチ用
+*.unitypackage
+
+# Git LFS（Large File Storage）対象ファイルの推奨設定（必要に応じて）
+# *.psd filter=lfs diff=lfs merge=lfs -text
+
+# ========== ここまで ==========
