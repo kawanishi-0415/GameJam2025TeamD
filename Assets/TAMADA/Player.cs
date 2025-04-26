@@ -3,15 +3,15 @@ using System.Collections.Generic;
 
 public class PlayerController : MonoBehaviour
 {
-    public float moveSpeed = 5f;
-    public float normalJumpForce = 10f;
-    public float highJumpForce = 18f;
-    public LayerMask groundLayer;
-    public Transform groundCheck;
-    public float groundCheckRadius = 0.2f;
+    [SerializeField] private float moveSpeed = 5f;
+    [SerializeField] private float normalJumpForce = 10f;
+    [SerializeField] private float highJumpForce = 18f;
+    [SerializeField] private LayerMask groundLayer;
+    [SerializeField] private Camera mainCamera;
 
-    private Rigidbody2D rb;
-    private BoxCollider2D boxCollider;
+    [SerializeField] private Rigidbody2D rb;
+    [SerializeField] private BoxCollider2D boxCollider;
+
     private bool isGrounded;
     private bool isCrouching;
     private float crouchStartTime;
@@ -20,19 +20,17 @@ public class PlayerController : MonoBehaviour
     private Vector2 originalColliderSize;
     private Vector2 originalColliderOffset;
 
-    // 設定した操作ボタン
+    // 初期設定の操作ボタン
     private KeyCode moveLeftKey = KeyCode.A;
     private KeyCode moveRightKey = KeyCode.F;
     private KeyCode jumpKey = KeyCode.J;
     private KeyCode crouchKey = KeyCode.L;
 
-    // 操作ボタンのリスト
-    private List<KeyCode> actionKeys;
-
     void Start()
     {
-        rb = GetComponent<Rigidbody2D>();
-        boxCollider = GetComponent<BoxCollider2D>();
+        if (rb == null) rb = GetComponent<Rigidbody2D>();
+        if (boxCollider == null) boxCollider = GetComponent<BoxCollider2D>();
+        if (mainCamera == null) mainCamera = Camera.main;
 
         originalScale = transform.localScale;
 
@@ -41,23 +39,12 @@ public class PlayerController : MonoBehaviour
             originalColliderSize = boxCollider.size;
             originalColliderOffset = boxCollider.offset;
         }
-
-        // 初期設定の操作ボタンをリストに格納
-        actionKeys = new List<KeyCode> { moveLeftKey, moveRightKey, jumpKey, crouchKey };
     }
 
     void Update()
     {
-        // スペースキーが押されたときに操作ボタンを変更
-       // if (Input.GetKeyDown(KeyCode.Space))
-       // {
-       //     ChangeControlButtons();
-       // }
+        isGrounded = CheckGroundedByCollider();
 
-        // 地面チェック
-        isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer);
-
-        // 左右移動
         float move = 0f;
         if (Input.GetKey(moveLeftKey)) move = -1f;
         if (Input.GetKey(moveRightKey)) move = 1f;
@@ -67,7 +54,6 @@ public class PlayerController : MonoBehaviour
             rb.velocity = new Vector2(move * moveSpeed, rb.velocity.y);
         }
 
-        // ジャンプ処理
         if (Input.GetKeyDown(jumpKey) && isGrounded)
         {
             float jumpForce = normalJumpForce;
@@ -75,18 +61,17 @@ public class PlayerController : MonoBehaviour
             if (isCrouching)
             {
                 float crouchDuration = Time.time - crouchStartTime;
-                if (crouchDuration >= 1f)
+                if (crouchDuration >= 0.7f)
                 {
                     jumpForce = highJumpForce;
                 }
                 isCrouching = false;
-                ResetCrouch(); // 縮小戻す
+                ResetCrouch();
             }
 
             rb.velocity = new Vector2(rb.velocity.x, jumpForce);
         }
 
-        // しゃがみ開始
         if (Input.GetKeyDown(crouchKey))
         {
             isCrouching = true;
@@ -94,12 +79,37 @@ public class PlayerController : MonoBehaviour
             StartCrouch();
         }
 
-        // しゃがみ解除
         if (Input.GetKeyUp(crouchKey))
         {
             isCrouching = false;
             ResetCrouch();
         }
+
+        ClampPositionToCamera();
+    }
+
+    private bool CheckGroundedByCollider()
+    {
+        Bounds bounds = boxCollider.bounds;
+        Vector2 bottomCenter = new Vector2(bounds.center.x, bounds.min.y - 0.05f);
+        Vector2 checkSize = new Vector2(bounds.size.x * 0.9f, 0.02f);
+        return Physics2D.OverlapBox(bottomCenter, checkSize, 0f, groundLayer);
+    }
+
+    private void ClampPositionToCamera()
+    {
+        Vector3 pos = transform.position;
+
+        Vector3 min = mainCamera.ViewportToWorldPoint(new Vector3(0, 0, mainCamera.nearClipPlane));
+        Vector3 max = mainCamera.ViewportToWorldPoint(new Vector3(1, 1, mainCamera.nearClipPlane));
+
+        float halfWidth = boxCollider.bounds.extents.x;
+        float halfHeight = boxCollider.bounds.extents.y;
+
+        pos.x = Mathf.Clamp(pos.x, min.x + halfWidth, max.x - halfWidth);
+        pos.y = Mathf.Clamp(pos.y, min.y + halfHeight, max.y - halfHeight);
+
+        transform.position = pos;
     }
 
     void StartCrouch()
@@ -121,43 +131,6 @@ public class PlayerController : MonoBehaviour
         {
             boxCollider.size = originalColliderSize;
             boxCollider.offset = originalColliderOffset;
-        }
-    }
-
-    // 操作ボタンをランダムに入れ替えるメソッド
-    public void ChangeControlButtons()
-    {
-        // ボタンリストの順番をシャッフル
-        Shuffle(actionKeys);
-
-        // リストからランダムに順番を変えたボタンを設定
-        moveLeftKey = actionKeys[0];
-        moveRightKey = actionKeys[1];
-        jumpKey = actionKeys[2];
-        crouchKey = actionKeys[3];
-
-        // 新しい操作ボタンをログに表示
-        Debug.Log($"New Controls: Move Left - {moveLeftKey}, Move Right - {moveRightKey}, Jump - {jumpKey}, Crouch - {crouchKey}");
-    }
-
-    // リストをシャッフルするメソッド
-    private void Shuffle(List<KeyCode> list)
-    {
-        for (int i = 0; i < list.Count; i++)
-        {
-            KeyCode temp = list[i];
-            int randomIndex = Random.Range(i, list.Count);
-            list[i] = list[randomIndex];
-            list[randomIndex] = temp;
-        }
-    }
-
-    void OnDrawGizmosSelected()
-    {
-        if (groundCheck != null)
-        {
-            Gizmos.color = Color.red;
-            Gizmos.DrawWireSphere(groundCheck.position, groundCheckRadius);
         }
     }
 }
