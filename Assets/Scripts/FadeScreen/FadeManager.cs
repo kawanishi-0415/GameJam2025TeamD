@@ -32,6 +32,11 @@ public class FadeManager : MonoBehaviour
         }
     }
 
+    public void SetFadeColor(Color color)
+    {
+        m_fadeScreen.color = color;
+    }
+
     public void FadeIn(Color color, float time)
     {
         m_fadeScreen.color = color;
