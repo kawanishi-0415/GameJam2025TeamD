@@ -134,7 +134,7 @@ GameObject:
   - component: {fileID: 834337546}
   - component: {fileID: 834337545}
   - component: {fileID: 834337547}
-  m_Layer: 4
+  m_Layer: 6
   m_Name: Closed Sprite Shape
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -472,6 +472,10 @@ PrefabInstance:
       propertyPath: groundCheck
       value: 
       objectReference: {fileID: 834337544}
+    - target: {fileID: 8483656033623139990, guid: 1690891b5cb46dc409170f8fb3c128d8, type: 3}
+      propertyPath: groundLayer.m_Bits
+      value: 64
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
