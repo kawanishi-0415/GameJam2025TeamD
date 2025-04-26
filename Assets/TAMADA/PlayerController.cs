@@ -106,8 +106,14 @@ public class PlayerController : MonoBehaviour
         float halfWidth = boxCollider.bounds.extents.x;
         float halfHeight = boxCollider.bounds.extents.y;
 
+        // 左右はClampする
         pos.x = Mathf.Clamp(pos.x, min.x + halfWidth, max.x - halfWidth);
-        pos.y = Mathf.Clamp(pos.y, min.y + halfHeight, max.y - halfHeight);
+
+        // 上だけClampする（下は自由に落下させる）
+        if (pos.y > max.y - halfHeight)
+        {
+            pos.y = max.y - halfHeight;
+        }
 
         transform.position = pos;
     }
