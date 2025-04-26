@@ -10,13 +10,14 @@ public class Result : MonoBehaviour
     void Start()
     {
         m_SceneManager = FindObjectOfType<GameSceneManager>();
+        FadeManager.Instance.FadeIn();
     }
 
     // Update is called once per frame
     void Update()
     {
         // ‰½‚©ƒNƒŠƒbƒN‚·‚é‚Æ‘JˆÚ‚·‚é
-        if (Input.anyKey)
+        if (Input.anyKey && FadeManager.Instance.Status == FadeManager.EnumStatus.End)
         {
             m_SceneManager.ChangeScene(GameSceneManager.GameState.TITLE);
         }
