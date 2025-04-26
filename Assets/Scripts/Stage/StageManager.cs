@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Security.Cryptography.X509Certificates;
 using UnityEditor.U2D.Aseprite;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -16,12 +17,14 @@ public class StageManager : MonoBehaviour
         GameClear,
         End,
     }
-    private EnumStageStatus m_status = EnumStageStatus.Init;
+    public EnumStageStatus Status { get; private set; } = EnumStageStatus.Init;
 
     public int StageNum { get; set; } = 0;
     private GameObject m_stageObj = null;
     private PlayerController m_playerObj = null;
+    public string StageName { get; private set; } = "";
     public float TimeLimit { get; private set; } = 0f;
+    public float ScrollSpeed { get; private set; } = 1f;
 
     [SerializeField] private SO_StageDatabase m_so_StageDataBase = null;
     [SerializeField] private PlayerController m_playerPrefab = null;
@@ -57,15 +60,15 @@ public class StageManager : MonoBehaviour
         if(m_playCoroutine != null)
             StopCoroutine(m_playCoroutine);
 
-        m_status = EnumStageStatus.Init;
+        Status = EnumStageStatus.Init;
         m_playCoroutine = StartCoroutine(CoLoop());
     }
 
     private IEnumerator CoLoop()
     {
-        while(m_status != EnumStageStatus.End)
+        while(Status != EnumStageStatus.End)
         {
-            switch (m_status)
+            switch (Status)
             {
                 case EnumStageStatus.Init:
                     yield return AsyncInit();
@@ -109,8 +112,10 @@ public class StageManager : MonoBehaviour
         m_playerObj.transform.position = stageData.playerStartPosition;
         yield return new WaitForSeconds(1.0f);
 
-        m_status = EnumStageStatus.Playing;
+        Status = EnumStageStatus.Playing;
+        StageName = stageData.stageName;
         TimeLimit = stageData.timeLimit;
+        ScrollSpeed = stageData.scrollSpeed;
         yield return null;
     }
 
@@ -175,7 +180,7 @@ public class StageManager : MonoBehaviour
     /// </summary>
     public void SetGameOver()
     {
-        m_status = EnumStageStatus.GameOver;
+        Status = EnumStageStatus.GameOver;
     }
 
     /// <summary>
@@ -183,7 +188,7 @@ public class StageManager : MonoBehaviour
     /// </summary>
     public void SetGameClear()
     {
-        m_status = EnumStageStatus.GameClear;
+        Status = EnumStageStatus.GameClear;
     }
 
     /// <summary>
