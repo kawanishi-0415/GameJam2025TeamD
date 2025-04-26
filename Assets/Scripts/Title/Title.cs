@@ -12,16 +12,17 @@ public class Title : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        m_SceneManager = FindObjectOfType<GameSceneManager>();
+        m_SceneManager = GameSceneManager.Instance;
+        FadeManager.Instance.FadeIn();
     }
 
     // Update is called once per frame
     void Update()
     {
         // ‰½‚©ƒNƒŠƒbƒN‚·‚é‚Æ‘JˆÚ‚·‚é
-        if (Input.anyKey)
+        if (Input.anyKey && FadeManager.Instance.Status == FadeManager.EnumStatus.End)
         {
-            m_SceneManager.ChangeScene(GameSceneManager.GameState.GAME);
+            m_SceneManager.ChangeScene(GameSceneManager.GameState.STAGE);
         }
     }
 }
