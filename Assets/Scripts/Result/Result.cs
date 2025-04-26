@@ -2,21 +2,23 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class test : MonoBehaviour
+public class Result : MonoBehaviour
 {
-    [SerializeField]
     private GameSceneManager m_SceneManager = null;
-
 
     // Start is called before the first frame update
     void Start()
     {
-        m_SceneManager.ChangeScene(GameSceneManager.GameState.GAME);
+        m_SceneManager = FindObjectOfType<GameSceneManager>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        // ‰½‚©ƒNƒŠƒbƒN‚·‚é‚Æ‘JˆÚ‚·‚é
+        if (Input.anyKey)
+        {
+            m_SceneManager.ChangeScene(GameSceneManager.GameState.TITLE);
+        }
     }
 }

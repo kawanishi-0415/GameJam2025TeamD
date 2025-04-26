@@ -9,11 +9,11 @@ public class GameSceneManager : MonoBehaviour
     private static GameSceneManager m_Instance = null;
     public enum GameState
     {
-        INIT,
         TITLE,
         GAME,
+        RESULT,
     }
-    private GameState m_State = GameState.INIT;
+    private GameState m_State = GameState.TITLE;
     private string[] m_SceneName = { "", "Title", "Stage"};
 
     public static GameSceneManager GetInstance()
@@ -34,6 +34,7 @@ public class GameSceneManager : MonoBehaviour
 
     public void ChangeScene(GameState state)
     {
+        m_State = state;
         LoadScene(m_SceneName[(int)state]);
     }
 
