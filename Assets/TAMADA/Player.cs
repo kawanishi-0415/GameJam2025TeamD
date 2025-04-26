@@ -3,12 +3,12 @@ using System.Collections.Generic;
 
 public class PlayerController : MonoBehaviour
 {
-    public float moveSpeed = 5f;
-    public float normalJumpForce = 10f;
-    public float highJumpForce = 18f;
-    public LayerMask groundLayer;
-    public Transform groundCheck;
-    public float groundCheckRadius = 0.2f;
+    [SerializeField] private float moveSpeed = 5f;
+    [SerializeField] private float normalJumpForce = 10f;
+    [SerializeField] private float highJumpForce = 18f;
+    [SerializeField] private LayerMask groundLayer;
+    [SerializeField] private Transform groundCheck;
+    [SerializeField] private float groundCheckRadius = 0.2f;
 
     private Rigidbody2D rb;
     private BoxCollider2D boxCollider;
@@ -48,12 +48,6 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        // スペースキーが押されたときに操作ボタンを変更
-       // if (Input.GetKeyDown(KeyCode.Space))
-       // {
-       //     ChangeControlButtons();
-       // }
-
         // 地面チェック
         isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer);
 
@@ -127,16 +121,13 @@ public class PlayerController : MonoBehaviour
     // 操作ボタンをランダムに入れ替えるメソッド
     public void ChangeControlButtons()
     {
-        // ボタンリストの順番をシャッフル
         Shuffle(actionKeys);
 
-        // リストからランダムに順番を変えたボタンを設定
         moveLeftKey = actionKeys[0];
         moveRightKey = actionKeys[1];
         jumpKey = actionKeys[2];
         crouchKey = actionKeys[3];
 
-        // 新しい操作ボタンをログに表示
         Debug.Log($"New Controls: Move Left - {moveLeftKey}, Move Right - {moveRightKey}, Jump - {jumpKey}, Crouch - {crouchKey}");
     }
 
