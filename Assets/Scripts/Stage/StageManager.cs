@@ -23,13 +23,12 @@ public class StageManager : MonoBehaviour
 
     public int StageIndex { get; set; } = 0;
     private GameObject m_stageObj = null;
-    private PlayerController m_playerObj = null;
     public string StageName { get; private set; } = "";
     public float TimeLimit { get; private set; } = SET_TIMELIMIT;
     public float ScrollSpeed { get; private set; } = 1f;
+    private Coroutine m_playCoroutine = null;
 
     [SerializeField] private SO_StageDatabase m_so_StageDataBase = null;
-    [SerializeField] private PlayerController m_playerPrefab = null;
 
     private void Awake()
     {
@@ -62,7 +61,6 @@ public class StageManager : MonoBehaviour
         }
     }
 
-    private Coroutine m_playCoroutine = null; 
     public void PlayStart()
     {
         if(m_playCoroutine != null)
@@ -94,18 +92,11 @@ public class StageManager : MonoBehaviour
         }
     }
 
-    private void DestroyObj()
-    {
-        if (m_stageObj != null)
-            Destroy(m_stageObj);
-        if (m_playerObj != null)
-            Destroy(m_playerObj.gameObject);
-    }
-
     #region Async
     private IEnumerator AsyncInit()
     {
-        DestroyObj();
+        if (m_stageObj != null)
+            Destroy(m_stageObj);
 
         // Stage生成
         SO_StageData stageData = GetStageData();
@@ -116,8 +107,7 @@ public class StageManager : MonoBehaviour
         yield return FadeManager.Instance.Status == FadeManager.EnumStatus.End;
 
         // Player生成
-        m_playerObj = Instantiate(m_playerPrefab);
-        m_playerObj.transform.position = stageData.playerStartPosition;
+        StageSceneController.Instance.CreatePlayer(stageData.playerStartPosition);
         yield return new WaitForSeconds(1.0f);
 
         Status = EnumStageStatus.Playing;
@@ -157,8 +147,8 @@ public class StageManager : MonoBehaviour
 
         if (CheckAllClear())
         {
-            GameSceneManager gameSceneManager = FindObjectOfType<GameSceneManager>();
-            gameSceneManager.ChangeScene(GameSceneManager.GameState.RESULT);
+            Initialized();
+            GameSceneManager.Instance.ChangeScene(GameSceneManager.GameState.RESULT);
         }
         else
         {
