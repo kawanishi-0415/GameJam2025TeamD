@@ -21,6 +21,7 @@ public class StageManager : MonoBehaviour
     public int StageNum { get; set; } = 0;
     private GameObject m_stageObj = null;
     private PlayerController m_playerObj = null;
+    public float TimeLimit { get; private set; } = 0f;
 
     [SerializeField] private SO_StageDatabase m_so_StageDataBase = null;
     [SerializeField] private PlayerController m_playerPrefab = null;
@@ -100,7 +101,7 @@ public class StageManager : MonoBehaviour
         m_stageObj = Instantiate(stageData.stagePrefab);
 
         // FadeIn
-        FadeManager.Instance.FadeIn(1.0f);
+        FadeManager.Instance.FadeIn();
         yield return FadeManager.Instance.Status == FadeManager.EnumStatus.End;
 
         // Player生成
@@ -109,21 +110,25 @@ public class StageManager : MonoBehaviour
         yield return new WaitForSeconds(1.0f);
 
         m_status = EnumStageStatus.Playing;
+        TimeLimit = stageData.timeLimit;
         yield return null;
     }
 
     private IEnumerator AsyncPlaying()
     {
-        while (m_status == EnumStageStatus.Playing)
+        yield return null;
+
+        TimeLimit -= Time.deltaTime;
+        if(TimeLimit <= 0f)
         {
-            yield return null;
+            SetGameOver();
         }
     }
 
     private IEnumerator AsyncGameOver()
     {
         // FadeOut
-        FadeManager.Instance.FadeOut(1.0f);
+        FadeManager.Instance.FadeOut();
         yield return FadeManager.Instance.Status == FadeManager.EnumStatus.End;
 
         ReloadCurrentScene();
@@ -135,7 +140,7 @@ public class StageManager : MonoBehaviour
         NextStage();
 
         // FadeOut
-        FadeManager.Instance.FadeOut(1.0f);
+        FadeManager.Instance.FadeOut();
         yield return FadeManager.Instance.Status == FadeManager.EnumStatus.End;
 
         if (CheckAllClear())

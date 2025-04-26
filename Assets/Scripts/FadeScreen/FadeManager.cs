@@ -41,6 +41,10 @@ public class FadeManager : MonoBehaviour
     {
         Fade(time, 1f, 0f);
     }
+    public void FadeIn()
+    {
+        Fade(1f, 1f, 0f);
+    }
     public void FadeOut(Color color, float time)
     {
         m_fadeScreen.color = color;
@@ -49,6 +53,10 @@ public class FadeManager : MonoBehaviour
     public void FadeOut(float time)
     {
         Fade(time, 0f, 1f);
+    }
+    public void FadeOut()
+    {
+        Fade(1f, 0f, 1f);
     }
 
     public void Fade(float time, float start, float end)
