@@ -14,6 +14,9 @@ public class Title : MonoBehaviour
     private int m_TextBlockIndex = 0;
     private bool m_IsTextEnd = false;
     private bool m_IsTextFadeEnd = true;
+    private bool m_IsWaitText = false;
+    [SerializeField]
+    private float m_TextStartWaitTime = 1.0f;
     [SerializeField]
     private float m_TextFadeTime = 1.0f;
     [SerializeField]
@@ -26,11 +29,15 @@ public class Title : MonoBehaviour
         FadeManager.Instance.FadeIn();
         m_ScenarioText.enabled = false;
 
-        LoadTextFile();
-        if (ShowScenarioText())
+        if (LoadTextFile())
         {
-            StartCoroutine(TextFadeIn());
+            StartCoroutine(WaitFirstText());
         }
+        else
+        {
+            m_IsTextEnd = true;
+        }
+        
     }
 
     // Update is called once per frame
@@ -38,24 +45,27 @@ public class Title : MonoBehaviour
     {
         if (!m_IsTextEnd)
         {
-            if (m_IsTextFadeEnd)
+            if (!m_IsWaitText) 
             {
-                if (m_ScenarioText.color.a <= 0.0f)
+                if (m_IsTextFadeEnd)
                 {
-                    // 次のテキスト
-                    if (NextTextBlock())
+                    if (m_ScenarioText.color.a <= 0.0f)
                     {
-                        StartCoroutine(TextFadeIn());
+                        // 次のテキスト
+                        if (NextTextBlock())
+                        {
+                            StartCoroutine(TextFadeIn());
+                        }
                     }
-                }
-                else
-                {
-                    if (Input.anyKey)
+                    else
                     {
-                        StartCoroutine(TextFadeOut());
+                        if (Input.anyKey)
+                        {
+                            StartCoroutine(TextFadeOut());
+                        }
                     }
+
                 }
-                
             }
         }
         else
@@ -69,7 +79,7 @@ public class Title : MonoBehaviour
         
     }
 
-    private void LoadTextFile()
+    private bool LoadTextFile()
     {
         TextAsset textAsset = Resources.Load<TextAsset>("Scenario/title");
         
@@ -96,7 +106,11 @@ public class Title : MonoBehaviour
                     str = "";
                 }
             }
+
+            return 0 < m_TitleTextBlockList.Count;
         }
+
+        return false;
     }
 
     private bool ShowScenarioText()
@@ -163,6 +177,24 @@ public class Title : MonoBehaviour
         }
             
 
+        yield return null;
+    }
+
+    private IEnumerator WaitFirstText()
+    {
+        m_IsWaitText = true;
+        float time = m_TextStartWaitTime;
+        while (0 <= time)
+        {
+            time -= Time.deltaTime;
+            yield return null;
+        }
+
+        if (ShowScenarioText())
+        {
+            StartCoroutine(TextFadeIn());
+        }
+        m_IsWaitText = false;
         yield return null;
     }
 
