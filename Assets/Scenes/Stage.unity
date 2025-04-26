@@ -597,6 +597,10 @@ MonoBehaviour:
   m_startCameraPos: {x: 0, y: 0, z: -10}
   m_stageText: {fileID: 1070987699}
   m_timeText: {fileID: 1075466128}
+  m_playerPrefab: {fileID: 8483656033623139990, guid: 1690891b5cb46dc409170f8fb3c128d8, type: 3}
+  m_canvas: {fileID: 2105381827}
+  m_timeOverPrefab: {fileID: 1421297809981482848, guid: 25dc2b54769456f439d3af2d719362ad, type: 3}
+  m_gameClearPrefab: {fileID: 1740457802422239482, guid: 8881dc342e45b8e42bceb2c2ef1786f2, type: 3}
 --- !u!1 &2105381824
 GameObject:
   m_ObjectHideFlags: 0
