@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class PlayerController : MonoBehaviour
+public class Player : MonoBehaviour
 {
     public float moveSpeed = 5f;
     public float normalJumpForce = 10f;
@@ -18,6 +18,11 @@ public class PlayerController : MonoBehaviour
     private Vector3 originalScale;
     private Vector2 originalColliderSize;
     private Vector2 originalColliderOffset;
+
+    private KeyCode moveLeftKey = KeyCode.A;
+    private KeyCode moveRightKey = KeyCode.F;
+    private KeyCode jumpKey = KeyCode.J;
+    private KeyCode crouchKey = KeyCode.L;
 
     void Start()
     {
@@ -40,8 +45,8 @@ public class PlayerController : MonoBehaviour
 
         // 左右移動
         float move = 0f;
-        if (Input.GetKey(KeyCode.A)) move = -1f;
-        if (Input.GetKey(KeyCode.F)) move = 1f;
+        if (Input.GetKey(moveLeftKey)) move = -1f;
+        if (Input.GetKey(moveRightKey)) move = 1f;
 
         if (!isCrouching)
         {
@@ -49,7 +54,7 @@ public class PlayerController : MonoBehaviour
         }
 
         // ジャンプ処理
-        if (Input.GetKeyDown(KeyCode.J) && isGrounded)
+        if (Input.GetKeyDown(jumpKey) && isGrounded)
         {
             float jumpForce = normalJumpForce;
 
@@ -68,7 +73,7 @@ public class PlayerController : MonoBehaviour
         }
 
         // しゃがみ開始
-        if (Input.GetKeyDown(KeyCode.L))
+        if (Input.GetKeyDown(crouchKey))
         {
             isCrouching = true;
             crouchStartTime = Time.time;
@@ -76,7 +81,7 @@ public class PlayerController : MonoBehaviour
         }
 
         // しゃがみ解除
-        if (Input.GetKeyUp(KeyCode.L))
+        if (Input.GetKeyUp(crouchKey))
         {
             isCrouching = false;
             ResetCrouch();
@@ -103,6 +108,39 @@ public class PlayerController : MonoBehaviour
             boxCollider.size = originalColliderSize;
             boxCollider.offset = originalColliderOffset;
         }
+    }
+
+    // 操作ボタンをランダムに入れ替えるメソッド
+    public void ChangeControlButtons()
+    {
+        KeyCode[] allKeys = (KeyCode[])System.Enum.GetValues(typeof(KeyCode));
+        KeyCode newMoveLeftKey = allKeys[Random.Range(0, allKeys.Length)];
+        KeyCode newMoveRightKey = allKeys[Random.Range(0, allKeys.Length)];
+        KeyCode newJumpKey = allKeys[Random.Range(0, allKeys.Length)];
+        KeyCode newCrouchKey = allKeys[Random.Range(0, allKeys.Length)];
+
+        // 同じキーが入らないようにチェック
+        while (newMoveLeftKey == newMoveRightKey || newMoveLeftKey == newJumpKey || newMoveLeftKey == newCrouchKey)
+        {
+            newMoveLeftKey = allKeys[Random.Range(0, allKeys.Length)];
+        }
+
+        while (newMoveRightKey == newJumpKey || newMoveRightKey == newCrouchKey)
+        {
+            newMoveRightKey = allKeys[Random.Range(0, allKeys.Length)];
+        }
+
+        while (newJumpKey == newCrouchKey)
+        {
+            newJumpKey = allKeys[Random.Range(0, allKeys.Length)];
+        }
+
+        moveLeftKey = newMoveLeftKey;
+        moveRightKey = newMoveRightKey;
+        jumpKey = newJumpKey;
+        crouchKey = newCrouchKey;
+
+        Debug.Log($"New Controls: Move Left - {moveLeftKey}, Move Right - {moveRightKey}, Jump - {jumpKey}, Crouch - {crouchKey}");
     }
 
     void OnDrawGizmosSelected()
