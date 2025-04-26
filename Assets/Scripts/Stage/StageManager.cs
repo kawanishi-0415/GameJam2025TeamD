@@ -9,6 +9,8 @@ public class StageManager : MonoBehaviour
 {
     public static StageManager Instance { get; private set; }
 
+    public const float SET_TIMELIMIT = 300f;
+
     public enum EnumStageStatus
     {
         Init,
@@ -19,11 +21,11 @@ public class StageManager : MonoBehaviour
     }
     public EnumStageStatus Status { get; private set; } = EnumStageStatus.Init;
 
-    public int StageNum { get; set; } = 0;
+    public int StageIndex { get; set; } = 0;
     private GameObject m_stageObj = null;
     private PlayerController m_playerObj = null;
     public string StageName { get; private set; } = "";
-    public float TimeLimit { get; private set; } = 0f;
+    public float TimeLimit { get; private set; } = SET_TIMELIMIT;
     public float ScrollSpeed { get; private set; } = 1f;
 
     [SerializeField] private SO_StageDatabase m_so_StageDataBase = null;
@@ -42,15 +44,21 @@ public class StageManager : MonoBehaviour
         }
     }
 
+    public void Initialized()
+    {
+        StageIndex = 0;
+        TimeLimit = SET_TIMELIMIT;
+    }
+
     /// <summary>
     /// 次ステージへ変更
     /// </summary>
     public void NextStage()
     {
-        StageNum++;
-        if (StageNum >= m_so_StageDataBase.stageList.Count)
+        StageIndex++;
+        if (StageIndex >= m_so_StageDataBase.stageList.Count)
         {
-            StageNum = 0;
+            StageIndex = 0;
         }
     }
 
@@ -114,7 +122,6 @@ public class StageManager : MonoBehaviour
 
         Status = EnumStageStatus.Playing;
         StageName = stageData.stageName;
-        TimeLimit = stageData.timeLimit;
         ScrollSpeed = stageData.scrollSpeed;
         yield return null;
     }
@@ -167,12 +174,12 @@ public class StageManager : MonoBehaviour
     /// <returns></returns>
     private SO_StageData GetStageData()
     {
-        if (StageNum >= m_so_StageDataBase.stageList.Count)
+        if (StageIndex >= m_so_StageDataBase.stageList.Count)
         {
-            Debug.LogError($"ターゲット外のstageNumが定義されています。m_stageNum = {StageNum}");
+            Debug.LogError($"ターゲット外のstageNumが定義されています。m_stageNum = {StageIndex}");
         }
 
-        return m_so_StageDataBase.stageList[StageNum];
+        return m_so_StageDataBase.stageList[StageIndex];
     }
 
     /// <summary>
@@ -207,6 +214,6 @@ public class StageManager : MonoBehaviour
     /// <returns></returns>
     public bool CheckAllClear()
     {
-        return StageNum == 0;
+        return StageIndex == 0;
     }
 }

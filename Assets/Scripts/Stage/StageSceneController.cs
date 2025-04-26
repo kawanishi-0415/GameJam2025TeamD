@@ -38,7 +38,7 @@ public class StageSceneController : MonoBehaviour
     private void DispTimeText()
     {
         m_timeText.enabled = StageManager.Instance.Status == StageManager.EnumStageStatus.Playing;
-        m_timeText.text = $"Time Limit: {Mathf.CeilToInt(StageManager.Instance.TimeLimit)}";
+        m_timeText.text = $"残り時間: {Mathf.CeilToInt(StageManager.Instance.TimeLimit)}";
     }
 
     private void MoveCamera()

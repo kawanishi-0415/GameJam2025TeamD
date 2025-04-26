@@ -12,9 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 17d244e76dbc6144ba1a961494c40f60, type: 3}
   m_Name: SO_StageData1
   m_EditorClassIdentifier: 
-  stageNumber: 1
-  stageName: Stage1
+  stageName: "1\u9762"
   playerStartPosition: {x: 0, y: 2}
   scrollSpeed: 1
-  timeLimit: 999
   stagePrefab: {fileID: 270198009944538443, guid: db7aa8f98c3595c499166c33773b8b7d, type: 3}
