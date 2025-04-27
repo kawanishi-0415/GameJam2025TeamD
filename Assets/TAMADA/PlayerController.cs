@@ -16,8 +16,8 @@ public class PlayerController : MonoBehaviour
     [Header("非表示にしておくオブジェクト4つ")]
     [SerializeField] private GameObject[] hiddenObjects = new GameObject[4];
 
-    // TextMeshProUGUI のフィールドをインスペクターから設定できないようにするため [SerializeField] を削除
-    private TextMeshProUGUI keyBindingsText; // TextMeshProUGUIを使う場合
+    [Header("TextMeshProの参照")]
+    [SerializeField] private TextMeshProUGUI keyBindingsText; // TextMeshProUGUIを使う場合
 
     private bool isGrounded;
     private bool isCrouching;
@@ -48,9 +48,6 @@ public class PlayerController : MonoBehaviour
         }
 
         SetObjectsActive(false);
-
-        // TextMeshProUGUIを手動で取得（インスペクターから設定しない場合）
-        keyBindingsText = FindObjectOfType<TextMeshProUGUI>(); // シーン内の最初のTextMeshProUGUIオブジェクトを探して設定
     }
 
     void Update()
@@ -104,7 +101,7 @@ public class PlayerController : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            ShuffleKeys();
+            ShuffleKeys(); // シャッフルしたらキーの設定を表示
             DisplayKeyBindings(); // シャッフル後にキーの設定を表示
         }
 
@@ -204,7 +201,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private void ShuffleKeys()
+    public void ShuffleKeys()  // public に変更
     {
         List<KeyCode> keys = new List<KeyCode> { KeyCode.A, KeyCode.F, KeyCode.J, KeyCode.L };
         for (int i = 0; i < keys.Count; i++)
@@ -226,19 +223,6 @@ public class PlayerController : MonoBehaviour
     public (KeyCode moveLeft, KeyCode moveRight, KeyCode jump, KeyCode crouch) GetCurrentKeyBindings()
     {
         return (moveLeftKey, moveRightKey, jumpKey, crouchKey);
-    }
-
-    // int型で指定したインデックスに基づき、KeyCodeを返す
-    public KeyCode GetKeyByIndex(int index)
-    {
-        switch (index)
-        {
-            case 0: return moveLeftKey;   // 左
-            case 1: return moveRightKey;  // 右
-            case 2: return jumpKey;       // ジャンプ
-            case 3: return crouchKey;     // しゃがみ
-            default: return KeyCode.None; // デフォルト値
-        }
     }
 
     // TextMeshProでキーのバインディングを表示
