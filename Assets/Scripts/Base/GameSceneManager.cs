@@ -17,7 +17,12 @@ public class GameSceneManager : MonoBehaviour
     private string[] m_SceneName = { "Title", "Stage", "Result" };
     private bool m_IsFadeing = false;
 
-    private void Awake()
+    public string m_PrevSceneName = "";
+    public float m_Time = 0.0f;
+    public int m_DeadCount = 0;
+   
+
+private void Awake()
     {
         if (Instance == null)
         {
@@ -35,6 +40,7 @@ public class GameSceneManager : MonoBehaviour
     // ƒV[ƒ“‘JˆÚ(“¯Šú)
     private void LoadScene(string sceneName)
     {
+        m_PrevSceneName = SceneManager.GetActiveScene().name;
         SceneManager.LoadScene(sceneName);
     }
 

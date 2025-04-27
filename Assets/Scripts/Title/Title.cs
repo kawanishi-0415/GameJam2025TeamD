@@ -73,6 +73,7 @@ public class Title : MonoBehaviour
             // ‰½‚©ƒNƒŠƒbƒN‚·‚é‚Æ‘JˆÚ‚·‚é
             if (Input.anyKey && FadeManager.Instance.Status == FadeManager.EnumStatus.End)
             {
+                //m_SceneManager.ChangeScene(GameSceneManager.GameState.RESULT);
                 m_SceneManager.ChangeScene(GameSceneManager.GameState.STAGE);
             }
         }
