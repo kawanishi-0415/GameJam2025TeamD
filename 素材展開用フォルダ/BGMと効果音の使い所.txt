@@ -1,0 +1,8 @@
+●BGM
+タイトルシーン　→　StartingMusic.mp3
+プレイ中　→　PlayingMusic.mp3
+リザルトシーン　→　EndingMusic.mp3
+
+●効果音
+ジャンプ　→　se_poin_up.mp3
+丼に到着　→　ファンファーレ.mp3 ＋　拍手.mp3
