@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: SO_StageData5
   m_EditorClassIdentifier: 
   stageName: "5\u9762"
-  playerStartPosition: {x: -5, y: 2}
+  playerStartPosition: {x: -9, y: 2}
   scrollSpeed: 1.1
   stagePrefab: {fileID: 270198009944538443, guid: 8329d7ca91fb92a4ca73ff79ece55dde, type: 3}
