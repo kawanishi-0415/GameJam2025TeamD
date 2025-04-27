@@ -141,6 +141,7 @@ MonoBehaviour:
   - {fileID: 1503452387961162985, guid: 3e499329a498eb147a991e590d5c1583, type: 3}
   - {fileID: 6135153403872584813, guid: 1dc498fd8b5f9634597d034e499752fa, type: 3}
   keyBindingsText: {fileID: 0}
+  jumpSound: {fileID: 8300000, guid: c5843bbc8d2c46740a90442c8884b634, type: 3}
 --- !u!61 &2546151902757478464
 BoxCollider2D:
   m_ObjectHideFlags: 0

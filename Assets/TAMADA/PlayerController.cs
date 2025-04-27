@@ -20,6 +20,10 @@ public class PlayerController : MonoBehaviour
     [Header("TextMeshProの参照")]
     [SerializeField] private TextMeshProUGUI keyBindingsText; // TextMeshProUGUIを使う場合
 
+    [Header("ジャンプの効果音")]
+    [SerializeField] private AudioClip jumpSound; // ジャンプ時の音
+    private AudioSource audioSource; // AudioSourceを格納
+
     private bool isGrounded;
     private bool isCrouching;
     private float crouchStartTime;
@@ -39,6 +43,7 @@ public class PlayerController : MonoBehaviour
         if (rb == null) rb = GetComponent<Rigidbody2D>();
         if (boxCollider == null) boxCollider = GetComponent<BoxCollider2D>();
         if (mainCamera == null) mainCamera = Camera.main;
+        if (audioSource == null) audioSource = GetComponent<AudioSource>(); // AudioSourceを取得
 
         originalScale = transform.localScale;
 
@@ -80,6 +85,7 @@ public class PlayerController : MonoBehaviour
             }
 
             rb.velocity = new Vector2(rb.velocity.x, jumpForce);
+            PlayJumpSound(); // ジャンプ音を再生
         }
 
         if (Input.GetKeyDown(crouchKey))
@@ -237,6 +243,15 @@ public class PlayerController : MonoBehaviour
                 return crouchKey;
             default:
                 return KeyCode.None;
+        }
+    }
+
+    // ジャンプ時の音を再生するメソッド
+    private void PlayJumpSound()
+    {
+        if (audioSource != null && jumpSound != null)
+        {
+            audioSource.PlayOneShot(jumpSound);
         }
     }
 }
