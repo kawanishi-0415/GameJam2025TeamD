@@ -22,6 +22,10 @@ public class Result : MonoBehaviour
 
     private float m_WaitTimeCnt = 0.0f;
 
+    [SerializeField]
+    private float m_FadeTime = 0.5f;
+    private float m_FadeCnt = 0.0f;
+
     public enum ResultState
     {
         GAME_RESULT,
@@ -109,7 +113,7 @@ public class Result : MonoBehaviour
             case ResultState.GAME_RESULT:
                 m_StateObj[0].SetActive(true);
                 m_StateObj[1].SetActive(false);
-                m_TimeText.text = "c‚èŠÔ " + m_SceneManager.m_Time.ToString() + " •b";
+                m_TimeText.text = "c‚èŠÔ " + m_SceneManager.m_Time.ToString("F0") + " •b";
                 m_DeadCountText.text = "€‚ñ‚¾‰ñ” " + m_SceneManager.m_DeadCount.ToString() + " ‰ñ";
                 break;
             case ResultState.SCNARIO_RESULT:
@@ -124,6 +128,15 @@ public class Result : MonoBehaviour
                 break;
             default:
                 break;
+        }
+    }
+
+    private IEnumerator ScenarioFade()
+    {
+        while (0.0f < m_FadeCnt)
+        {
+            m_FadeCnt -= Time.deltaTime;
+            yield return null;
         }
     }
 }
