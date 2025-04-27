@@ -32,7 +32,13 @@ public class Player_Cuted : MonoBehaviour
 
         // カメラの外に出ないようにする（下方向だけ自由）
         ClampPositionToCameraSidesAndTop();
-    }
+
+        // LキーでLinkメソッド呼び出し
+       if (Input.GetKeyDown(KeyCode.O))
+      {
+            Link();
+     }
+  }
 
     private void ClampPositionToCameraSidesAndTop()
     {

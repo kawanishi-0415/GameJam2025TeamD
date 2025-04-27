@@ -91,11 +91,11 @@ public class PlayerController : MonoBehaviour
             ResetCrouch();
         }
 
-        // Pキーが押されたときにCutメソッドを呼び出す
-        //if (Input.GetKeyDown(KeyCode.P))
-       // {
-       //     Cut();
-       // }
+         //Pキーが押されたときにCutメソッドを呼び出す
+      if (Input.GetKeyDown(KeyCode.P))
+       {
+            Cut();
+      }
 
         ClampPositionAndCheckFall();
     }

@@ -149,30 +149,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70899f0376b36f244a379bb0c98d350d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 5
-  normalJumpForce: 13
-  highJumpForce: 22
-  groundLayer:
-    m_Bits: 64
-  mainCamera: {fileID: 849046218}
-  rb: {fileID: 174917209}
-  boxCollider: {fileID: 174917207}
-  hiddenObjects:
-  - {fileID: 293245412}
-  - {fileID: 757671834}
-  - {fileID: 429654744}
-  - {fileID: 2097720286}
-  isGrounded: 0
-  isCrouching: 0
-  crouchStartTime: 0
-  isGameOver: 0
-  originalScale: {x: 0, y: 0, z: 0}
-  originalColliderSize: {x: 0, y: 0}
-  originalColliderOffset: {x: 0, y: 0}
-  moveLeftKey: 97
-  moveRightKey: 102
-  jumpKey: 106
-  crouchKey: 108
 --- !u!114 &174917214
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -265,7 +241,7 @@ MonoBehaviour:
   moveSpeed: 5
   jumpForce: 16
   jumpKey: 97
-  objectToShow: {fileID: 0}
+  objectToShow: {fileID: 109543445}
   spawnPosition: {x: 0, y: 0, z: 0}
 --- !u!61 &293245414
 BoxCollider2D:
@@ -1335,7 +1311,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 5
   jumpForce: 16
-  jumpKey: 105
+  jumpKey: 108
   objectToShow: {fileID: 0}
   spawnPosition: {x: 0, y: 0, z: 0}
 --- !u!61 &2097720288
