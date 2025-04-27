@@ -24,7 +24,7 @@ MonoBehaviour:
   m_MinSize: {x: 300, y: 100}
   m_MaxSize: {x: 24288, y: 16192}
   vertical: 0
-  controlID: 29420
+  controlID: 32473
   draggingID: 0
 --- !u!114 &2
 MonoBehaviour:
@@ -149,7 +149,7 @@ MonoBehaviour:
   m_MinSize: {x: 200, y: 100}
   m_MaxSize: {x: 16192, y: 16192}
   vertical: 1
-  controlID: 29421
+  controlID: 32474
   draggingID: 0
 --- !u!114 &4
 MonoBehaviour:
@@ -175,7 +175,7 @@ MonoBehaviour:
   m_MinSize: {x: 200, y: 50}
   m_MaxSize: {x: 16192, y: 8096}
   vertical: 0
-  controlID: 29422
+  controlID: 32475
   draggingID: 0
 --- !u!114 &5
 MonoBehaviour:
@@ -239,8 +239,8 @@ MonoBehaviour:
     m_OverlaysVisible: 1
   m_SceneHierarchy:
     m_TreeViewState:
-      scrollPos: {x: 0, y: 0}
-      m_SelectedIDs: 
+      scrollPos: {x: 0, y: 4.600006}
+      m_SelectedIDs: 2a440100
       m_LastClickedID: 0
       m_ExpandedIDs: 5020feff6420feff6620feff9c20feffb020feffb220feffca20feffde20feffe020feff5421feff6821feff6a21feffae21feffba240100
       m_RenameOverlay:
@@ -663,9 +663,9 @@ MonoBehaviour:
   m_PlayAudio: 0
   m_AudioPlay: 0
   m_Position:
-    m_Target: {x: 34.46175, y: 3.7133431, z: 0.08149415}
+    m_Target: {x: 39.332603, y: -3.6871576, z: 0}
     speed: 2
-    m_Value: {x: 34.46175, y: 3.7133431, z: 0.08149415}
+    m_Value: {x: 39.332603, y: -3.6871576, z: 0}
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -715,9 +715,9 @@ MonoBehaviour:
     speed: 2
     m_Value: {x: 0, y: 0, z: 0, w: 1}
   m_Size:
-    m_Target: 13.435464
+    m_Target: 9.643381
     speed: 2
-    m_Value: 13.435464
+    m_Value: 9.643381
   m_Ortho:
     m_Target: 1
     speed: 2
@@ -803,7 +803,7 @@ MonoBehaviour:
   - {fileID: 12}
   - {fileID: 13}
   m_Selected: 0
-  m_LastSelected: 1
+  m_LastSelected: 2
 --- !u!114 &11
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -849,7 +849,7 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/Resources/Prefabs/Stage/Gimic
+    - Assets/TAMADA
     m_Globs: []
     m_OriginalText: 
     m_ImportLogFlags: 0
@@ -857,16 +857,16 @@ MonoBehaviour:
   m_ViewMode: 1
   m_StartGridSize: 64
   m_LastFolders:
-  - Assets/Resources/Prefabs/Stage/Gimic
+  - Assets/TAMADA
   m_LastFoldersGridSize: -1
   m_LastProjectPath: C:\Users\Tama\Documents\GitHub\Github\Github\GameJam2025TeamD
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
-    scrollPos: {x: 0, y: 24.600006}
-    m_SelectedIDs: 6ea70000
-    m_LastClickedID: 42862
-    m_ExpandedIDs: 0000000054620000ae62000082730000a873000000ca9a3bffffff7f
+    scrollPos: {x: 0, y: 196.6}
+    m_SelectedIDs: b4620000
+    m_LastClickedID: 25268
+    m_ExpandedIDs: 0000000054620000ae620000827300008a73000090730000a873000000ca9a3bffffff7f
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -919,8 +919,8 @@ MonoBehaviour:
       m_Icon: {fileID: 0}
       m_ResourceFile: 
   m_ListAreaState:
-    m_SelectedInstanceIDs: 
-    m_LastClickedInstanceID: 0
+    m_SelectedInstanceIDs: 2a440100
+    m_LastClickedInstanceID: 82986
     m_HadKeyboardFocusLastEvent: 0
     m_ExpandedInstanceIDs: c6230000
     m_RenameOverlay:
