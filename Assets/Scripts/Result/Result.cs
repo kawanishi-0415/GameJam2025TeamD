@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class Result : MonoBehaviour
 {
@@ -11,6 +12,15 @@ public class Result : MonoBehaviour
     private Image m_Image;
     [SerializeField]
     private List<Sprite> m_TextureList = new List<Sprite>();
+
+    [SerializeField]
+    private TextMeshProUGUI m_TimeText;
+    [SerializeField]
+    private TextMeshProUGUI m_DeadCountText;
+    [SerializeField]
+    private float m_WaitTime = 0.5f;
+
+    private float m_WaitTimeCnt = 0.0f;
 
     public enum ResultState
     {
@@ -33,8 +43,6 @@ public class Result : MonoBehaviour
 
         m_State = ResultState.GAME_RESULT;
         EnableState();
-
-        
     }
 
     // Update is called once per frame
@@ -44,28 +52,41 @@ public class Result : MonoBehaviour
         {
             case ResultState.GAME_RESULT:
                 // ゲームリザルト
-                if (Input.anyKey)
+                if (Input.anyKey && FadeManager.Instance.Status == FadeManager.EnumStatus.End)
                 {
                     m_State = ResultState.SCNARIO_RESULT;
+                    EnableState();
                 }
                 break;
 
             case ResultState.SCNARIO_RESULT:
                 // シナリオ
 
-                if (Input.anyKey)
+                if (m_WaitTimeCnt <= 0.0f)
                 {
-                    if (m_TextureList.Count <= m_TextureIndex)
+                    if (Input.anyKey)
                     {
-                        m_Image.enabled = false;
-                        m_State = ResultState.SCNARIO_RESULT;
-                    }
-                    else
-                    {
-                        m_TextureIndex++;
-                        m_Image.sprite = m_TextureList[m_TextureIndex];
+                        if (m_TextureList.Count <= m_TextureIndex + 1)
+                        {
+                            //m_Image.enabled = false;
+                            m_State = ResultState.END_RESULT;
+                            EnableState();
+                        }
+                        else
+                        {
+                            m_TextureIndex++;
+                            m_Image.sprite = m_TextureList[m_TextureIndex];
+                        }
+
+                        m_WaitTimeCnt = m_WaitTime;
                     }
                 }
+                else
+                {
+                    m_WaitTimeCnt -= Time.deltaTime;
+                }
+
+                
 
                 break;
             case ResultState.END_RESULT:
@@ -88,14 +109,18 @@ public class Result : MonoBehaviour
             case ResultState.GAME_RESULT:
                 m_StateObj[0].SetActive(true);
                 m_StateObj[1].SetActive(false);
+                m_TimeText.text = "残り時間 " + m_SceneManager.m_Time.ToString() + " 秒";
+                m_DeadCountText.text = "死んだ回数 " + m_SceneManager.m_DeadCount.ToString() + " 回";
                 break;
             case ResultState.SCNARIO_RESULT:
                 m_StateObj[0].SetActive(false);
                 m_StateObj[1].SetActive(true);
+                m_Image.sprite = m_TextureList[m_TextureIndex];
+                m_WaitTimeCnt = m_WaitTime;
                 break;
             case ResultState.END_RESULT:
                 m_StateObj[0].SetActive(false);
-                m_StateObj[1].SetActive(false);
+                m_StateObj[1].SetActive(true);
                 break;
             default:
                 break;
