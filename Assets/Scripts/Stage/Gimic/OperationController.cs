@@ -9,12 +9,23 @@ public class OperationController : MonoBehaviour
     [SerializeField] private TextMeshProUGUI m_leftText = null;
     [SerializeField] private TextMeshProUGUI m_jumpText = null;
     [SerializeField] private TextMeshProUGUI m_crouchText = null;
+    [SerializeField] private TextMeshProUGUI m_changeTime = null;
 
-    public void SetText()
+    private void Update()
     {
-        m_rightText.text = m_rightText.text;
-        m_leftText.text = m_leftText.text;
-        m_jumpText.text = m_jumpText.text;
-        m_crouchText.text = m_crouchText.text;
+        
+    }
+
+    public void SetText(string rightText, string leftText, string jumpText, string crouchText)
+    {
+        m_rightText.text = rightText;
+        m_leftText.text = leftText;
+        m_jumpText.text = jumpText;
+        m_crouchText.text = crouchText;
+    }
+
+    public void ChangeTimeText()
+    {
+        m_changeTime.text = "";
     }
 }

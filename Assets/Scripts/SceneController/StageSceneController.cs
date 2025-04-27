@@ -118,6 +118,7 @@ public class StageSceneController : MonoBehaviour
 
         // Player生成
         StageSceneController.Instance.CreatePlayer(stageData.playerStartPosition);
+        ChangeOperationText();
         yield return new WaitForSeconds(1.0f);
 
         Status = EnumStageStatus.Playing;
@@ -246,6 +247,12 @@ public class StageSceneController : MonoBehaviour
     /// 操作方法変更
     /// </summary>
     public void ChangeOperation()
+    {
+        m_playerObj.ShuffleKeys();
+        ChangeOperationText();
+    }
+
+    private void ChangeOperationText()
     {
         KeyCode leftCode = m_playerObj.GetKeyByIndex(0);
         KeyCode rightCode = m_playerObj.GetKeyByIndex(1);
