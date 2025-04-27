@@ -11,6 +11,8 @@ public class StageManager : MonoBehaviour
 
     public int StageIndex { get; set; } = 0;
     [SerializeField] private SO_StageDatabase m_so_StageDataBase = null;
+    [SerializeField] private AudioSource m_audioGole1 = null;
+    [SerializeField] private AudioSource m_audioGole2 = null;
 
     public KeyCode LeftKeyCode { get; set; } = KeyCode.A;
     public KeyCode RightKeyCode { get; set; } = KeyCode.F;
@@ -80,5 +82,15 @@ public class StageManager : MonoBehaviour
     public bool CheckAllClear()
     {
         return StageIndex == 0;
+    }
+
+    public void PlayGoleSe()
+    {
+        if (StageIndex == m_so_StageDataBase.stageList.Count - 1)
+        {
+            m_audioGole1.Play();
+        }
+
+        m_audioGole2.Play();
     }
 }
