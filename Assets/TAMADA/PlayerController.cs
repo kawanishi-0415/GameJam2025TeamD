@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class PlayerController : MonoBehaviour
 {
@@ -43,7 +44,6 @@ public class PlayerController : MonoBehaviour
             originalColliderOffset = boxCollider.offset;
         }
 
-        // 最初はすべて非表示
         SetObjectsActive(false);
     }
 
@@ -91,11 +91,16 @@ public class PlayerController : MonoBehaviour
             ResetCrouch();
         }
 
-         //Pキーが押されたときにCutメソッドを呼び出す
-      if (Input.GetKeyDown(KeyCode.P))
-       {
+        if (Input.GetKeyDown(KeyCode.P))
+        {
             Cut();
-      }
+        }
+
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            ShuffleKeys();
+            Debug.Log(GetCurrentKeyBindings()); // ← シャッフルしたら現在のキー割り当ても表示
+        }
 
         ClampPositionAndCheckFall();
     }
@@ -159,7 +164,6 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    // Cutメソッド（非表示のオブジェクトを表示した後にPlayerControllerのオブジェクトを非表示）
     public void Cut()
     {
         if (hiddenObjects == null || hiddenObjects.Length == 0)
@@ -168,23 +172,21 @@ public class PlayerController : MonoBehaviour
             return;
         }
 
-        // 非表示のオブジェクトを再表示
         SetObjectsActive(true);
 
-        // 表示されるオブジェクトの位置を現在のオブジェクトの位置に設定
         foreach (GameObject obj in hiddenObjects)
         {
             if (obj != null)
             {
-                obj.transform.position = transform.position; // 現在のオブジェクトの位置に設定
+                obj.transform.position = transform.position;
             }
         }
 
-        // PlayerControllerが付いているオブジェクトを非表示
-        gameObject.SetActive(false); // このオブジェクト（PlayerControllerが付いているもの）を非表示
+        // ShuffleKeys(); ← Cutではシャッフルしない
+
+        gameObject.SetActive(false);
     }
 
-    // オブジェクトの表示/非表示を設定
     private void SetObjectsActive(bool isActive)
     {
         foreach (GameObject obj in hiddenObjects)
@@ -194,5 +196,29 @@ public class PlayerController : MonoBehaviour
                 obj.SetActive(isActive);
             }
         }
+    }
+
+    private void ShuffleKeys()
+    {
+        List<KeyCode> keys = new List<KeyCode> { KeyCode.A, KeyCode.F, KeyCode.J, KeyCode.L };
+        for (int i = 0; i < keys.Count; i++)
+        {
+            KeyCode temp = keys[i];
+            int randomIndex = Random.Range(i, keys.Count);
+            keys[i] = keys[randomIndex];
+            keys[randomIndex] = temp;
+        }
+
+        moveLeftKey = keys[0];
+        moveRightKey = keys[1];
+        jumpKey = keys[2];
+        crouchKey = keys[3];
+
+        Debug.Log($"キーをシャッフルしました！ 左移動: {moveLeftKey}, 右移動: {moveRightKey}, ジャンプ: {jumpKey}, しゃがみ: {crouchKey}");
+    }
+
+    public string GetCurrentKeyBindings()
+    {
+        return $"左移動: {moveLeftKey}, 右移動: {moveRightKey}, ジャンプ: {jumpKey}, しゃがみ: {crouchKey}";
     }
 }
