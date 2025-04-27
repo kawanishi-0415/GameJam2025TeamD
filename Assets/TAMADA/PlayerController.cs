@@ -102,7 +102,6 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space))
         {
             ShuffleKeys(); // シャッフルしたらキーの設定を表示
-            DisplayKeyBindings(); // シャッフル後にキーの設定を表示
         }
 
         ClampPositionAndCheckFall();
@@ -223,17 +222,5 @@ public class PlayerController : MonoBehaviour
     public (KeyCode moveLeft, KeyCode moveRight, KeyCode jump, KeyCode crouch) GetCurrentKeyBindings()
     {
         return (moveLeftKey, moveRightKey, jumpKey, crouchKey);
-    }
-
-    // TextMeshProでキーのバインディングを表示
-    private void DisplayKeyBindings()
-    {
-        var currentKeys = GetCurrentKeyBindings();
-        string keyBindings = $"左移動: {currentKeys.moveLeft}, 右移動: {currentKeys.moveRight}, ジャンプ: {currentKeys.jump}, しゃがみ: {currentKeys.crouch}";
-
-        if (keyBindingsText != null)
-        {
-            keyBindingsText.text = keyBindings; // TextMeshProのテキストとして設定
-        }
     }
 }

@@ -127,8 +127,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 5
-  normalJumpForce: 10
-  highJumpForce: 18
+  normalJumpForce: 13
+  highJumpForce: 22
   groundLayer:
     serializedVersion: 2
     m_Bits: 64
@@ -140,6 +140,7 @@ MonoBehaviour:
   - {fileID: 799309445148470023, guid: 1694e7c6d0250b946a3b701b4d82c82b, type: 3}
   - {fileID: 1503452387961162985, guid: 3e499329a498eb147a991e590d5c1583, type: 3}
   - {fileID: 6135153403872584813, guid: 1dc498fd8b5f9634597d034e499752fa, type: 3}
+  keyBindingsText: {fileID: 0}
 --- !u!61 &2546151902757478464
 BoxCollider2D:
   m_ObjectHideFlags: 0
