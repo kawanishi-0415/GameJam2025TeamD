@@ -1,6 +1,7 @@
 using UnityEngine;
 using TMPro; // TextMeshProを使うために必要
-using System.Collections.Generic; // List<T> を使うために必要
+using System.Collections.Generic;
+using System.Net.Http.Headers; // List<T> を使うために必要
 
 public class PlayerController : MonoBehaviour
 {
@@ -222,5 +223,22 @@ public class PlayerController : MonoBehaviour
     public (KeyCode moveLeft, KeyCode moveRight, KeyCode jump, KeyCode crouch) GetCurrentKeyBindings()
     {
         return (moveLeftKey, moveRightKey, jumpKey, crouchKey);
+    }
+
+    public KeyCode GetKeyByIndex(int index)
+    {
+        switch (index)
+        {
+            case 0:
+                return moveLeftKey;
+            case 1:
+                return moveRightKey;
+            case 2:
+                return jumpKey;
+            case 3:
+                return crouchKey;
+            default:
+                return KeyCode.None;
+        }
     }
 }
