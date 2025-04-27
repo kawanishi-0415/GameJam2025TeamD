@@ -135,6 +135,11 @@ MonoBehaviour:
   mainCamera: {fileID: 0}
   rb: {fileID: 1287265274033486570}
   boxCollider: {fileID: 2546151902757478464}
+  m_playerCutPrefabList:
+  - {fileID: 2082647931036211417, guid: b6b4666e024e73247b000d2c3ab85ea0, type: 3}
+  - {fileID: 8764274284445918430, guid: 1694e7c6d0250b946a3b701b4d82c82b, type: 3}
+  - {fileID: 6066646990123344017, guid: 3e499329a498eb147a991e590d5c1583, type: 3}
+  - {fileID: 6348325993718071227, guid: 1dc498fd8b5f9634597d034e499752fa, type: 3}
   hiddenObjects:
   - {fileID: 7568051198922291339, guid: b6b4666e024e73247b000d2c3ab85ea0, type: 3}
   - {fileID: 799309445148470023, guid: 1694e7c6d0250b946a3b701b4d82c82b, type: 3}

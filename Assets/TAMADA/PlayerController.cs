@@ -1,6 +1,6 @@
 using UnityEngine;
-using System.Collections;
-using System.Collections.Generic;
+using TMPro; // TextMeshProを使うために必要
+using System.Collections.Generic; // List<T> を使うために必要
 
 public class PlayerController : MonoBehaviour
 {
@@ -15,6 +15,9 @@ public class PlayerController : MonoBehaviour
 
     [Header("非表示にしておくオブジェクト4つ")]
     [SerializeField] private GameObject[] hiddenObjects = new GameObject[4];
+
+    // TextMeshProUGUI のフィールドをインスペクターから設定できないようにするため [SerializeField] を削除
+    private TextMeshProUGUI keyBindingsText; // TextMeshProUGUIを使う場合
 
     private bool isGrounded;
     private bool isCrouching;
@@ -45,6 +48,9 @@ public class PlayerController : MonoBehaviour
         }
 
         SetObjectsActive(false);
+
+        // TextMeshProUGUIを手動で取得（インスペクターから設定しない場合）
+        keyBindingsText = FindObjectOfType<TextMeshProUGUI>(); // シーン内の最初のTextMeshProUGUIオブジェクトを探して設定
     }
 
     void Update()
@@ -99,7 +105,7 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space))
         {
             ShuffleKeys();
-            Debug.Log(GetCurrentKeyBindings()); // ← シャッフルしたら現在のキー割り当ても表示
+            DisplayKeyBindings(); // シャッフル後にキーの設定を表示
         }
 
         ClampPositionAndCheckFall();
@@ -217,8 +223,33 @@ public class PlayerController : MonoBehaviour
         Debug.Log($"キーをシャッフルしました！ 左移動: {moveLeftKey}, 右移動: {moveRightKey}, ジャンプ: {jumpKey}, しゃがみ: {crouchKey}");
     }
 
-    public string GetCurrentKeyBindings()
+    public (KeyCode moveLeft, KeyCode moveRight, KeyCode jump, KeyCode crouch) GetCurrentKeyBindings()
     {
-        return $"左移動: {moveLeftKey}, 右移動: {moveRightKey}, ジャンプ: {jumpKey}, しゃがみ: {crouchKey}";
+        return (moveLeftKey, moveRightKey, jumpKey, crouchKey);
+    }
+
+    // int型で指定したインデックスに基づき、KeyCodeを返す
+    public KeyCode GetKeyByIndex(int index)
+    {
+        switch (index)
+        {
+            case 0: return moveLeftKey;   // 左
+            case 1: return moveRightKey;  // 右
+            case 2: return jumpKey;       // ジャンプ
+            case 3: return crouchKey;     // しゃがみ
+            default: return KeyCode.None; // デフォルト値
+        }
+    }
+
+    // TextMeshProでキーのバインディングを表示
+    private void DisplayKeyBindings()
+    {
+        var currentKeys = GetCurrentKeyBindings();
+        string keyBindings = $"左移動: {currentKeys.moveLeft}, 右移動: {currentKeys.moveRight}, ジャンプ: {currentKeys.jump}, しゃがみ: {currentKeys.crouch}";
+
+        if (keyBindingsText != null)
+        {
+            keyBindingsText.text = keyBindings; // TextMeshProのテキストとして設定
+        }
     }
 }

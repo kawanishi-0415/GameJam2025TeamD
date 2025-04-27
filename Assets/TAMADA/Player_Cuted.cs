@@ -70,6 +70,11 @@ public class Player_Cuted : MonoBehaviour
         }
     }
 
+    public void SetPlayerObjShow(GameObject obj)
+    {
+        objectToShow = obj;
+    }
+
     // Linkメソッドで指定したオブジェクトを表示し、その後このオブジェクトを非表示にする
     public void Link()
     {

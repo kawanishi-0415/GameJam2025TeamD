@@ -149,32 +149,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70899f0376b36f244a379bb0c98d350d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &174917214
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 109543445}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 372793c96a1c2774a926dcdd13909f3a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  moveSpeed: 5
-  normalJumpForce: 13
-  highJumpForce: 22
-  groundLayer:
-    serializedVersion: 2
-    m_Bits: 64
-  mainCamera: {fileID: 849046218}
-  rb: {fileID: 174917209}
-  boxCollider: {fileID: 174917207}
-  hiddenObjects:
-  - {fileID: 293245412}
-  - {fileID: 757671834}
-  - {fileID: 429654744}
-  - {fileID: 2097720286}
 --- !u!1 &275703920
 GameObject:
   m_ObjectHideFlags: 0
@@ -1466,6 +1440,10 @@ PrefabInstance:
       value: Player
       objectReference: {fileID: 0}
     - target: {fileID: 2355068028112088977, guid: 1690891b5cb46dc409170f8fb3c128d8, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 2355068028112088977, guid: 1690891b5cb46dc409170f8fb3c128d8, type: 3}
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
@@ -1556,9 +1534,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 2355068028112088977, guid: 1690891b5cb46dc409170f8fb3c128d8, type: 3}
       insertIndex: -1
       addedObject: {fileID: 174917213}
-    - targetCorrespondingSourceObject: {fileID: 2355068028112088977, guid: 1690891b5cb46dc409170f8fb3c128d8, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 174917214}
   m_SourcePrefab: {fileID: 100100000, guid: 1690891b5cb46dc409170f8fb3c128d8, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
