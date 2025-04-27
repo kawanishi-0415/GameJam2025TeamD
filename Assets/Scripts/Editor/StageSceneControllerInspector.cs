@@ -8,14 +8,20 @@ public class StageSceneControllerInspector : Editor
     {
         DrawDefaultInspector(); // 通常のInspectorも表示
 
-        if (GUILayout.Button("Game Over"))
+        StageSceneController script = (StageSceneController)target;
+        if (GUILayout.Button("Player Dead"))
         {
-            StageManager.Instance.SetGameOver();
+            script.SetPlayerDead();
+        }
+
+        if (GUILayout.Button("Time Over"))
+        {
+            script.SetTimeOver();
         }
 
         if (GUILayout.Button("Game Clear"))
         {
-            StageManager.Instance.SetGameClear();
+            script.SetGameClear();
         }
     }
 }
