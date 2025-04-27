@@ -185,6 +185,7 @@ public class StageSceneController : MonoBehaviour
 
         // キー入力待機
         yield return new WaitUntil(() => Input.anyKeyDown);
+        Status = EnumStageStatus.End;
 
         // FadeOut
         FadeManager.Instance.FadeOut();
@@ -196,6 +197,9 @@ public class StageSceneController : MonoBehaviour
 
     private IEnumerator AsyncGameClear()
     {
+        // SE鳴動
+        StageManager.Instance.PlayGoleSe();
+
         GameClearWindow gameClearWindow = Instantiate(m_gameClearPrefab, m_canvas.transform);
         SO_StageData stageData = StageManager.Instance.GetStageData();
         gameClearWindow.SetText(stageData.stageName);
@@ -203,6 +207,7 @@ public class StageSceneController : MonoBehaviour
 
         // キー入力待機
         yield return new WaitUntil(() => Input.anyKeyDown);
+        Status = EnumStageStatus.End;
 
         StageManager.Instance.NextStage();
 
