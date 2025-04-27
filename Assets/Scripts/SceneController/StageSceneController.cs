@@ -247,7 +247,11 @@ public class StageSceneController : MonoBehaviour
     /// </summary>
     public void ChangeOperation()
     {
-        m_operationControlelr.SetText();
+        KeyCode leftCode = m_playerObj.GetKeyByIndex(0);
+        KeyCode rightCode = m_playerObj.GetKeyByIndex(1);
+        KeyCode jumpCode = m_playerObj.GetKeyByIndex(2);
+        KeyCode crouchCode = m_playerObj.GetKeyByIndex(3);
+        m_operationControlelr.SetText(leftCode.ToString(), rightCode.ToString(), jumpCode.ToString(), crouchCode.ToString());
     }
 
     private void DispStageText()
