@@ -340,6 +340,7 @@ MonoBehaviour:
   m_leftText: {fileID: 1789837156}
   m_jumpText: {fileID: 1896631318}
   m_crouchText: {fileID: 753042578}
+  m_changeTime: {fileID: 2019345673}
 --- !u!1 &272780023
 GameObject:
   m_ObjectHideFlags: 0
@@ -1745,6 +1746,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cb4362c1e1be92f499c3363a8c373401, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_deadNum: 0
   m_startCameraPos: {x: 0, y: 0, z: -10}
   m_stageText: {fileID: 1070987699}
   m_timeText: {fileID: 1075466128}

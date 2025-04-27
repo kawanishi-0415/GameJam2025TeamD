@@ -23,5 +23,11 @@ public class StageSceneControllerInspector : Editor
         {
             script.SetGameClear();
         }
+
+        if (GUILayout.Button("Next Stage"))
+        {
+            StageManager.Instance.NextStage();
+            script.SetPlayerDead();
+        }
     }
 }

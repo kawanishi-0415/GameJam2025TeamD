@@ -26,6 +26,6 @@ public class OperationController : MonoBehaviour
 
     public void ChangeTimeText()
     {
-        m_changeTime.text = "";
+        m_changeTime.text = Mathf.CeilToInt(StageSceneController.Instance.ChangeTime).ToString();
     }
 }

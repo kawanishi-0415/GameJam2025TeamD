@@ -15,3 +15,5 @@ MonoBehaviour:
   stageList:
   - {fileID: 11400000, guid: ec5b1a57d7a90974e92df795fddc84fb, type: 2}
   - {fileID: 11400000, guid: fe6d2b6b5c9350148ac794fa11eb8986, type: 2}
+  - {fileID: 11400000, guid: adf2028c2130a4345a78046ce6942579, type: 2}
+  - {fileID: 11400000, guid: eb35105dcfd59564a8d87d5a6fc9090e, type: 2}

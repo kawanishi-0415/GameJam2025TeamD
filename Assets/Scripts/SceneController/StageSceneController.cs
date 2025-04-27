@@ -21,6 +21,7 @@ public class StageSceneController : MonoBehaviour
     }
     public EnumStageStatus Status { get; set; } = EnumStageStatus.Init;
 
+    public const float SET_CHANGE_TIME = 20f;
     public const float SET_TIMELIMIT = 300f;
 
     private Camera m_camera = null;
@@ -28,7 +29,9 @@ public class StageSceneController : MonoBehaviour
     private GameObject m_stageObj = null;
     private Coroutine m_playCoroutine = null;
     public string m_stageName { get; private set; } = "";
+    public int m_deadNum = 0;
     public float m_timeLimit { get; private set; } = SET_TIMELIMIT;
+    public float ChangeTime { get; private set; } = SET_CHANGE_TIME;
     public float m_scrollSpeed { get; private set; } = 1f;
 
 
@@ -74,6 +77,14 @@ public class StageSceneController : MonoBehaviour
             StopCoroutine(m_playCoroutine);
 
         Status = EnumStageStatus.Init;
+        ChangeTime = SET_CHANGE_TIME;
+
+        Scene currentScene = SceneManager.GetActiveScene();
+        if (GameSceneManager.Instance.m_PrevSceneName != currentScene.name)
+        {
+            Initialized();
+        }
+
         m_playCoroutine = StartCoroutine(CoLoop());
     }
 
@@ -137,10 +148,19 @@ public class StageSceneController : MonoBehaviour
             m_timeLimit = 0f;
             SetTimeOver();
         }
+
+        ChangeTime -= Time.deltaTime;
+        if (ChangeTime <= 0f)
+        {
+            m_playerObj.ShuffleKeys();
+            ChangeTime = SET_CHANGE_TIME;
+        }
     }
 
     private IEnumerator AsyncPlayerDead()
     {
+        m_deadNum++;
+
         // FadeOut
         FadeManager.Instance.FadeOut();
         yield return FadeManager.Instance.Status == FadeManager.EnumStatus.End;
@@ -183,7 +203,8 @@ public class StageSceneController : MonoBehaviour
 
         if (StageManager.Instance.CheckAllClear())
         {
-            Initialized();
+            GameSceneManager.Instance.m_DeadCount = m_deadNum;
+            GameSceneManager.Instance.m_Time = m_timeLimit;
             GameSceneManager.Instance.ChangeScene(GameSceneManager.GameState.RESULT);
         }
         else
