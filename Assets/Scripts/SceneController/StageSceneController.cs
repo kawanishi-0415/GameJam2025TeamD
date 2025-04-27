@@ -21,7 +21,7 @@ public class StageSceneController : MonoBehaviour
     }
     public EnumStageStatus Status { get; set; } = EnumStageStatus.Init;
 
-    public const float SET_CHANGE_TIME = 20f;
+    public const float SET_CHANGE_TIME = 10f;
     public const float SET_TIMELIMIT = 300f;
 
     private Camera m_camera = null;
@@ -123,14 +123,22 @@ public class StageSceneController : MonoBehaviour
         SO_StageData stageData = StageManager.Instance.GetStageData();
         m_stageObj = Instantiate(stageData.stagePrefab);
 
+        // Player生成
+        StageSceneController.Instance.CreatePlayer(stageData.playerStartPosition);
+        Scene currentScene = SceneManager.GetActiveScene();
+        if (GameSceneManager.Instance.m_PrevSceneName == currentScene.name)
+        {
+            m_playerObj.SetKey(
+                StageManager.Instance.LeftKeyCode,
+                StageManager.Instance.RightKeyCode,
+                StageManager.Instance.JumpKeyCode,
+                StageManager.Instance.CrouchKeyCode);
+        }
+        ChangeOperationText();
+
         // FadeIn
         FadeManager.Instance.FadeIn();
         yield return FadeManager.Instance.Status == FadeManager.EnumStatus.End;
-
-        // Player生成
-        StageSceneController.Instance.CreatePlayer(stageData.playerStartPosition);
-        ChangeOperationText();
-        yield return new WaitForSeconds(1.0f);
 
         Status = EnumStageStatus.Playing;
         m_stageName = stageData.stageName;
@@ -153,6 +161,7 @@ public class StageSceneController : MonoBehaviour
         if (ChangeTime <= 0f)
         {
             m_playerObj.ShuffleKeys();
+            ChangeOperationText();
             ChangeTime = SET_CHANGE_TIME;
         }
     }
@@ -274,11 +283,15 @@ public class StageSceneController : MonoBehaviour
 
     private void ChangeOperationText()
     {
-        KeyCode leftCode = m_playerObj.GetKeyByIndex(0);
-        KeyCode rightCode = m_playerObj.GetKeyByIndex(1);
-        KeyCode jumpCode = m_playerObj.GetKeyByIndex(2);
-        KeyCode crouchCode = m_playerObj.GetKeyByIndex(3);
-        m_operationControlelr.SetText(leftCode.ToString(), rightCode.ToString(), jumpCode.ToString(), crouchCode.ToString());
+        StageManager.Instance.LeftKeyCode = m_playerObj.GetKeyByIndex(0);
+        StageManager.Instance.RightKeyCode = m_playerObj.GetKeyByIndex(1);
+        StageManager.Instance.JumpKeyCode = m_playerObj.GetKeyByIndex(2);
+        StageManager.Instance.CrouchKeyCode = m_playerObj.GetKeyByIndex(3);
+        m_operationControlelr.SetText(
+            StageManager.Instance.LeftKeyCode.ToString(),
+            StageManager.Instance.RightKeyCode.ToString(),
+            StageManager.Instance.JumpKeyCode.ToString(),
+            StageManager.Instance.CrouchKeyCode.ToString());
     }
 
     private void DispStageText()

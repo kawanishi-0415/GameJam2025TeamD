@@ -95,16 +95,6 @@ public class PlayerController : MonoBehaviour
             ResetCrouch();
         }
 
-        if (Input.GetKeyDown(KeyCode.P))
-        {
-            Cut();
-        }
-
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            ShuffleKeys(); // シャッフルしたらキーの設定を表示
-        }
-
         ClampPositionAndCheckFall();
     }
 
@@ -199,6 +189,14 @@ public class PlayerController : MonoBehaviour
                 obj.SetActive(isActive);
             }
         }
+    }
+
+    public void SetKey(KeyCode left, KeyCode right, KeyCode jump, KeyCode crouch)
+    {
+        moveLeftKey = left;
+        moveRightKey = right;
+        jumpKey = jump;
+        crouchKey = crouch;
     }
 
     public void ShuffleKeys()  // public に変更

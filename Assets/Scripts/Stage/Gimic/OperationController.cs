@@ -13,7 +13,7 @@ public class OperationController : MonoBehaviour
 
     private void Update()
     {
-        
+        ChangeTimeText();
     }
 
     public void SetText(string rightText, string leftText, string jumpText, string crouchText)

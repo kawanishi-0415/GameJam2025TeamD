@@ -12,6 +12,11 @@ public class StageManager : MonoBehaviour
     public int StageIndex { get; set; } = 0;
     [SerializeField] private SO_StageDatabase m_so_StageDataBase = null;
 
+    public KeyCode LeftKeyCode { get; set; } = KeyCode.A;
+    public KeyCode RightKeyCode { get; set; } = KeyCode.F;
+    public KeyCode JumpKeyCode { get; set; } = KeyCode.J;
+    public KeyCode CrouchKeyCode { get; set; } = KeyCode.L;
+
     private void Awake()
     {
         if (Instance == null)
