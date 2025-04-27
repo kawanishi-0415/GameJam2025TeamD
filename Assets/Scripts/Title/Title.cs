@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class Title : MonoBehaviour
 {
     [SerializeField]
-    private Text m_ScenarioText = null;
+    private TextMeshProUGUI m_ScenarioText = null;
     private GameSceneManager m_SceneManager = null;
 
     private List<string> m_TitleTextBlockList = new List<string>();
@@ -107,6 +108,7 @@ public class Title : MonoBehaviour
                     str = "";
                 }
             }
+            m_TitleTextBlockList.Add(str);
 
             return 0 < m_TitleTextBlockList.Count;
         }
