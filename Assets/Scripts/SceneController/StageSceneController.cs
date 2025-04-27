@@ -250,8 +250,7 @@ public class StageSceneController : MonoBehaviour
     /// </summary>
     public void ReloadCurrentScene()
     {
-        Scene currentScene = SceneManager.GetActiveScene();
-        SceneManager.LoadScene(currentScene.name);
+        GameSceneManager.Instance.ChangeScene(GameSceneManager.GameState.STAGE);
     }
 
 

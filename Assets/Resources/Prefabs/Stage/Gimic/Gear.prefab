@@ -45,7 +45,7 @@ GameObject:
   - component: {fileID: 1365722943819167326}
   - component: {fileID: 7315304517705220444}
   - component: {fileID: 6931361144053458644}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Scaffold1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -216,7 +216,7 @@ GameObject:
   - component: {fileID: 6909768194523087412}
   - component: {fileID: 1751822186635330756}
   - component: {fileID: 8432572628079801970}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Scaffold2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
