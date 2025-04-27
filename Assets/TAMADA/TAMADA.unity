@@ -122,6 +122,11 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &109543445 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2355068028112088977, guid: 1690891b5cb46dc409170f8fb3c128d8, type: 3}
+  m_PrefabInstance: {fileID: 5653337587971347708}
+  m_PrefabAsset: {fileID: 0}
 --- !u!61 &174917207 stripped
 BoxCollider2D:
   m_CorrespondingSourceObject: {fileID: 2546151902757478464, guid: 1690891b5cb46dc409170f8fb3c128d8, type: 3}
@@ -132,6 +137,68 @@ Rigidbody2D:
   m_CorrespondingSourceObject: {fileID: 1287265274033486570, guid: 1690891b5cb46dc409170f8fb3c128d8, type: 3}
   m_PrefabInstance: {fileID: 5653337587971347708}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &174917213
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 109543445}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 70899f0376b36f244a379bb0c98d350d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveSpeed: 5
+  normalJumpForce: 13
+  highJumpForce: 22
+  groundLayer:
+    m_Bits: 64
+  mainCamera: {fileID: 849046218}
+  rb: {fileID: 174917209}
+  boxCollider: {fileID: 174917207}
+  hiddenObjects:
+  - {fileID: 293245412}
+  - {fileID: 757671834}
+  - {fileID: 429654744}
+  - {fileID: 2097720286}
+  isGrounded: 0
+  isCrouching: 0
+  crouchStartTime: 0
+  isGameOver: 0
+  originalScale: {x: 0, y: 0, z: 0}
+  originalColliderSize: {x: 0, y: 0}
+  originalColliderOffset: {x: 0, y: 0}
+  moveLeftKey: 97
+  moveRightKey: 102
+  jumpKey: 106
+  crouchKey: 108
+--- !u!114 &174917214
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 109543445}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 372793c96a1c2774a926dcdd13909f3a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveSpeed: 5
+  normalJumpForce: 13
+  highJumpForce: 22
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 64
+  mainCamera: {fileID: 849046218}
+  rb: {fileID: 174917209}
+  boxCollider: {fileID: 174917207}
+  hiddenObjects:
+  - {fileID: 293245412}
+  - {fileID: 757671834}
+  - {fileID: 429654744}
+  - {fileID: 2097720286}
 --- !u!1 &275703920
 GameObject:
   m_ObjectHideFlags: 0
@@ -198,6 +265,8 @@ MonoBehaviour:
   moveSpeed: 5
   jumpForce: 16
   jumpKey: 97
+  objectToShow: {fileID: 0}
+  spawnPosition: {x: 0, y: 0, z: 0}
 --- !u!61 &293245414
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -372,6 +441,8 @@ MonoBehaviour:
   moveSpeed: 5
   jumpForce: 16
   jumpKey: 106
+  objectToShow: {fileID: 0}
+  spawnPosition: {x: 0, y: 0, z: 0}
 --- !u!61 &429654746
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -795,6 +866,8 @@ MonoBehaviour:
   moveSpeed: 5
   jumpForce: 16
   jumpKey: 102
+  objectToShow: {fileID: 0}
+  spawnPosition: {x: 0, y: 0, z: 0}
 --- !u!61 &757671836
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1263,6 +1336,8 @@ MonoBehaviour:
   moveSpeed: 5
   jumpForce: 16
   jumpKey: 105
+  objectToShow: {fileID: 0}
+  spawnPosition: {x: 0, y: 0, z: 0}
 --- !u!61 &2097720288
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1464,7 +1539,7 @@ PrefabInstance:
       objectReference: {fileID: 174917209}
     - target: {fileID: 8483656033623139990, guid: 1690891b5cb46dc409170f8fb3c128d8, type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8483656033623139990, guid: 1690891b5cb46dc409170f8fb3c128d8, type: 3}
       propertyPath: mainCamera
@@ -1482,10 +1557,32 @@ PrefabInstance:
       propertyPath: groundLayer.m_Bits
       value: 64
       objectReference: {fileID: 0}
+    - target: {fileID: 8483656033623139990, guid: 1690891b5cb46dc409170f8fb3c128d8, type: 3}
+      propertyPath: hiddenObjects.Array.data[0]
+      value: 
+      objectReference: {fileID: 293245412}
+    - target: {fileID: 8483656033623139990, guid: 1690891b5cb46dc409170f8fb3c128d8, type: 3}
+      propertyPath: hiddenObjects.Array.data[1]
+      value: 
+      objectReference: {fileID: 757671834}
+    - target: {fileID: 8483656033623139990, guid: 1690891b5cb46dc409170f8fb3c128d8, type: 3}
+      propertyPath: hiddenObjects.Array.data[2]
+      value: 
+      objectReference: {fileID: 429654744}
+    - target: {fileID: 8483656033623139990, guid: 1690891b5cb46dc409170f8fb3c128d8, type: 3}
+      propertyPath: hiddenObjects.Array.data[3]
+      value: 
+      objectReference: {fileID: 2097720286}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 2355068028112088977, guid: 1690891b5cb46dc409170f8fb3c128d8, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 174917213}
+    - targetCorrespondingSourceObject: {fileID: 2355068028112088977, guid: 1690891b5cb46dc409170f8fb3c128d8, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 174917214}
   m_SourcePrefab: {fileID: 100100000, guid: 1690891b5cb46dc409170f8fb3c128d8, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
