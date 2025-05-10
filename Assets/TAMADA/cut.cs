@@ -2,26 +2,26 @@ using UnityEngine;
 
 public class CloneSpawner : MonoBehaviour
 {
-    [SerializeField] private GameObject playerPrefab; // ƒvƒŒƒCƒ„[ƒIƒuƒWƒFƒNƒg‚ÌƒvƒŒƒnƒu
-    [SerializeField] private Transform spawnPoint;    // ƒNƒ[ƒ“‚Ì¶¬ˆÊ’u
-    [SerializeField] private float jumpForce = 10f;   // ƒWƒƒƒ“ƒv—Í
+    [SerializeField] private GameObject playerPrefab; // ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ãƒ—ãƒ¬ãƒãƒ–
+    [SerializeField] private Transform spawnPoint;    // ã‚¯ãƒ­ãƒ¼ãƒ³ã®ç”Ÿæˆä½ç½®
+    [SerializeField] private float jumpForce = 10f;   // ã‚¸ãƒ£ãƒ³ãƒ—åŠ›
 
     void Start()
     {
-        // ƒNƒ[ƒ“‚ğ4‚Â¶¬
-        CreateClone(KeyCode.A);
-        CreateClone(KeyCode.F);
-        CreateClone(KeyCode.J);
-        CreateClone(KeyCode.L);
+        // ã‚¯ãƒ­ãƒ¼ãƒ³ã‚’4ã¤ç”Ÿæˆ
+        CreateClone(KeyCode.Q);
+        CreateClone(KeyCode.R);
+        CreateClone(KeyCode.U);
+        CreateClone(KeyCode.P);
     }
 
     void CreateClone(KeyCode jumpKey)
     {
-        // ƒNƒ[ƒ“‚ğ¶¬
+        // ã‚¯ãƒ­ãƒ¼ãƒ³ã‚’ç”Ÿæˆ
         GameObject clone = Instantiate(playerPrefab, spawnPoint.position, Quaternion.identity);
         PlayerCloneController playerController = clone.GetComponent<PlayerCloneController>();
 
-        // ƒNƒ[ƒ“‚²‚Æ‚ÉƒWƒƒƒ“ƒvƒL[‚ğİ’è
+        // ã‚¯ãƒ­ãƒ¼ãƒ³ã”ã¨ã«ã‚¸ãƒ£ãƒ³ãƒ—ã‚­ãƒ¼ã‚’è¨­å®š
         if (playerController != null)
         {
             playerController.SetJumpKey(jumpKey, jumpForce);
@@ -31,9 +31,9 @@ public class CloneSpawner : MonoBehaviour
 
 public class PlayerCloneController : MonoBehaviour
 {
-    [SerializeField] private KeyCode jumpKey;  // ƒWƒƒƒ“ƒv‚·‚éƒL[
-    [SerializeField] private float jumpForce;  // ƒWƒƒƒ“ƒv—Í
-    private Rigidbody2D rb;   // Rigidbody2DƒRƒ“ƒ|[ƒlƒ“ƒg
+    [SerializeField] private KeyCode jumpKey;  // ã‚¸ãƒ£ãƒ³ãƒ—ã™ã‚‹ã‚­ãƒ¼
+    [SerializeField] private float jumpForce;  // ã‚¸ãƒ£ãƒ³ãƒ—åŠ›
+    private Rigidbody2D rb;   // Rigidbody2Dã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆ
 
     void Start()
     {
@@ -42,16 +42,16 @@ public class PlayerCloneController : MonoBehaviour
 
     void Update()
     {
-        // ƒWƒƒƒ“ƒvˆ—
-        if (Input.GetKeyDown(jumpKey) && Mathf.Abs(rb.velocity.y) < 0.1f)  // ’n–Ê‚É‚¢‚é‚Ì‚İƒWƒƒƒ“ƒv
+        // ã‚¸ãƒ£ãƒ³ãƒ—å‡¦ç†
+        if (Input.GetKeyDown(jumpKey) && Mathf.Abs(rb.velocity.y) < 0.1f)  // åœ°é¢ã«ã„ã‚‹æ™‚ã®ã¿ã‚¸ãƒ£ãƒ³ãƒ—
         {
             rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
         }
 
-        // ˆÚ“®ˆ—‚ğíœi‚±‚ê‚Å–{‘Ì‚Í“®‚©‚È‚¢j
+        // ç§»å‹•å‡¦ç†ã‚’å‰Šé™¤ï¼ˆã“ã‚Œã§æœ¬ä½“ã¯å‹•ã‹ãªã„ï¼‰
     }
 
-    // ƒWƒƒƒ“ƒvƒL[‚ÆƒWƒƒƒ“ƒv—Í‚ğİ’è‚·‚éƒƒ\ƒbƒh
+    // ã‚¸ãƒ£ãƒ³ãƒ—ã‚­ãƒ¼ã¨ã‚¸ãƒ£ãƒ³ãƒ—åŠ›ã‚’è¨­å®šã™ã‚‹ãƒ¡ã‚½ãƒƒãƒ‰
     public void SetJumpKey(KeyCode key, float force)
     {
         jumpKey = key;

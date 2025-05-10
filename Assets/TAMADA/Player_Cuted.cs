@@ -2,42 +2,42 @@ using UnityEngine;
 
 public class Player_Cuted : MonoBehaviour
 {
-    [SerializeField] private float moveSpeed = 5f;   // i‚Ş‘¬‚³
-    [SerializeField] private float jumpForce = 10f;  // ƒWƒƒƒ“ƒv‚Ì‹­‚³
-    [SerializeField] private KeyCode jumpKey = KeyCode.Space; // ƒWƒƒƒ“ƒv‚·‚éƒL[‚ğƒCƒ“ƒXƒyƒNƒ^[‚Å‘I‘ğ
-    [SerializeField] private GameObject objectToShow;  // •\¦‚·‚éƒIƒuƒWƒFƒNƒg
-    [SerializeField] private Vector3 spawnPosition;  // •\¦ƒIƒuƒWƒFƒNƒg‚ÌƒXƒ|[ƒ“ˆÊ’u
+    [SerializeField] private float moveSpeed = 5f;   // é€²ã‚€é€Ÿã•
+    [SerializeField] private float jumpForce = 10f;  // ã‚¸ãƒ£ãƒ³ãƒ—ã®å¼·ã•
+    [SerializeField] private KeyCode jumpKey = KeyCode.Space; // ã‚¸ãƒ£ãƒ³ãƒ—ã™ã‚‹ã‚­ãƒ¼ã‚’ã‚¤ãƒ³ã‚¹ãƒšã‚¯ã‚¿ãƒ¼ã§é¸æŠ
+    [SerializeField] private GameObject objectToShow;  // è¡¨ç¤ºã™ã‚‹ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+    [SerializeField] private Vector3 spawnPosition;  // è¡¨ç¤ºã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ã‚¹ãƒãƒ¼ãƒ³ä½ç½®
 
-    private Rigidbody2D rb;  // Rigidbody2DƒRƒ“ƒ|[ƒlƒ“ƒg
-    private Camera mainCamera; // ƒƒCƒ“ƒJƒƒ‰
+    private Rigidbody2D rb;  // Rigidbody2Dã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆ
+    private Camera mainCamera; // ãƒ¡ã‚¤ãƒ³ã‚«ãƒ¡ãƒ©
 
     void Start()
     {
-        // Rigidbody2DƒRƒ“ƒ|[ƒlƒ“ƒg‚ğæ“¾
+        // Rigidbody2Dã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã‚’å–å¾—
         rb = GetComponent<Rigidbody2D>();
-        // ƒƒCƒ“ƒJƒƒ‰‚ğæ“¾
+        // ãƒ¡ã‚¤ãƒ³ã‚«ãƒ¡ãƒ©ã‚’å–å¾—
         mainCamera = Camera.main;
     }
 
     void Update()
     {
-        // ƒLƒƒƒ‰ƒNƒ^[‚ğ‰E‚Éi‚ß‚é
+        // ã‚­ãƒ£ãƒ©ã‚¯ã‚¿ãƒ¼ã‚’å³ã«é€²ã‚ã‚‹
         rb.velocity = new Vector2(moveSpeed, rb.velocity.y);
 
-        // ƒWƒƒƒ“ƒvˆ—
-        if (Input.GetKeyDown(jumpKey) && Mathf.Abs(rb.velocity.y) < 0.01f)  // ’n–Ê‚É‚¢‚é‚Ì‚İƒWƒƒƒ“ƒv
+        // ã‚¸ãƒ£ãƒ³ãƒ—å‡¦ç†
+        if (Input.GetKeyDown(jumpKey) && Mathf.Abs(rb.velocity.y) < 0.01f)  // åœ°é¢ã«ã„ã‚‹æ™‚ã®ã¿ã‚¸ãƒ£ãƒ³ãƒ—
         {
             rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
         }
 
-        // ƒJƒƒ‰‚ÌŠO‚Éo‚È‚¢‚æ‚¤‚É‚·‚éi‰º•ûŒü‚¾‚¯©—Rj
+        // ã‚«ãƒ¡ãƒ©ã®å¤–ã«å‡ºãªã„ã‚ˆã†ã«ã™ã‚‹ï¼ˆä¸‹æ–¹å‘ã ã‘è‡ªç”±ï¼‰
         ClampPositionToCameraSidesAndTop();
 
-        // LƒL[‚ÅLinkƒƒ\ƒbƒhŒÄ‚Ño‚µ
-       if (Input.GetKeyDown(KeyCode.O))
-      {
-            Link();
-     }
+     //   // Lã‚­ãƒ¼ã§Linkãƒ¡ã‚½ãƒƒãƒ‰å‘¼ã³å‡ºã—
+     //  if (Input.GetKeyDown(KeyCode.O))
+     // {
+     //       Link();
+     //}
   }
 
     private void ClampPositionToCameraSidesAndTop()
@@ -46,25 +46,25 @@ public class Player_Cuted : MonoBehaviour
 
         Vector3 pos = transform.position;
 
-        // ƒJƒƒ‰‚Ì¶‰º‚Æ‰EãˆÊ’u‚ğæ“¾
+        // ã‚«ãƒ¡ãƒ©ã®å·¦ä¸‹ã¨å³ä¸Šä½ç½®ã‚’å–å¾—
         Vector3 min = mainCamera.ViewportToWorldPoint(new Vector3(0, 0, mainCamera.nearClipPlane));
         Vector3 max = mainCamera.ViewportToWorldPoint(new Vector3(1, 1, mainCamera.nearClipPlane));
 
-        // ¶‰E‚¾‚¯Clamp‚·‚é
+        // å·¦å³ã ã‘Clampã™ã‚‹
         pos.x = Mathf.Clamp(pos.x, min.x, max.x);
 
-        // ã•ûŒü‚¾‚¯Clamp‚·‚é
+        // ä¸Šæ–¹å‘ã ã‘Clampã™ã‚‹
         if (pos.y > max.y)
         {
             pos.y = max.y;
         }
 
-        // ‰º‚É‚Ío‚Ä‚à‚¢‚¢‚Ì‚ÅAy‚ª¬‚³‚­‚È‚é‚Ì‚Í©—RI
+        // ä¸‹ã«ã¯å‡ºã¦ã‚‚ã„ã„ã®ã§ã€yãŒå°ã•ããªã‚‹ã®ã¯è‡ªç”±ï¼
 
         transform.position = pos;
 
-        // ‰æ–ÊŠO‚Éo‚½ê‡AƒQ[ƒ€ƒI[ƒo[ˆ—
-        if (pos.y < min.y)  // ‰æ–Ê‚Ì‰º‚Éo‚½‚ç
+        // ç”»é¢å¤–ã«å‡ºãŸå ´åˆã€ã‚²ãƒ¼ãƒ ã‚ªãƒ¼ãƒãƒ¼å‡¦ç†
+        if (pos.y < min.y)  // ç”»é¢ã®ä¸‹ã«å‡ºãŸã‚‰
         {
             StageManager.Instance.SetGameOver();
         }
@@ -75,17 +75,17 @@ public class Player_Cuted : MonoBehaviour
         objectToShow = obj;
     }
 
-    // Linkƒƒ\ƒbƒh‚Åw’è‚µ‚½ƒIƒuƒWƒFƒNƒg‚ğ•\¦‚µA‚»‚ÌŒã‚±‚ÌƒIƒuƒWƒFƒNƒg‚ğ”ñ•\¦‚É‚·‚é
+    // Linkãƒ¡ã‚½ãƒƒãƒ‰ã§æŒ‡å®šã—ãŸã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’è¡¨ç¤ºã—ã€ãã®å¾Œã“ã®ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’éè¡¨ç¤ºã«ã™ã‚‹
     public void Link()
     {
         if (objectToShow != null)
         {
-            // objectToShow‚ÌˆÊ’u‚ğw’è‚µ‚½ƒIƒuƒWƒFƒNƒg‚ÌˆÊ’u‚Éİ’è
-            objectToShow.transform.position = transform.position;  // ‚±‚±‚ÅŒ»İ‚ÌƒvƒŒƒCƒ„[‚ÌˆÊ’u‚Éİ’è
-            objectToShow.SetActive(true);  // ƒIƒuƒWƒFƒNƒg‚ğ•\¦
+            // objectToShowã®ä½ç½®ã‚’æŒ‡å®šã—ãŸã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ä½ç½®ã«è¨­å®š
+            objectToShow.transform.position = transform.position;  // ã“ã“ã§ç¾åœ¨ã®ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®ä½ç½®ã«è¨­å®š
+            objectToShow.SetActive(true);  // ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’è¡¨ç¤º
         }
 
-        // ‚±‚ÌƒIƒuƒWƒFƒNƒg‚ğ”ñ•\¦‚É‚·‚é
+        // ã“ã®ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’éè¡¨ç¤ºã«ã™ã‚‹
         gameObject.SetActive(false);
     }
 }

@@ -1,7 +1,7 @@
 using UnityEngine;
-using TMPro; // TextMeshPro‚ğg‚¤‚½‚ß‚É•K—v
+using TMPro; // TextMeshProã‚’ä½¿ã†ãŸã‚ã«å¿…è¦
 using System.Collections.Generic;
-using System.Net.Http.Headers; // List<T> ‚ğg‚¤‚½‚ß‚É•K—v
+using System.Net.Http.Headers; // List<T> ã‚’ä½¿ã†ãŸã‚ã«å¿…è¦
 
 public class PlayerController : MonoBehaviour
 {
@@ -14,15 +14,15 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Rigidbody2D rb;
     [SerializeField] private BoxCollider2D boxCollider;
 
-    [Header("”ñ•\¦‚É‚µ‚Ä‚¨‚­ƒIƒuƒWƒFƒNƒg4‚Â")]
+    [Header("éè¡¨ç¤ºã«ã—ã¦ãŠãã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ4ã¤")]
     [SerializeField] private GameObject[] hiddenObjects = new GameObject[4];
 
-    [Header("TextMeshPro‚ÌQÆ")]
-    [SerializeField] private TextMeshProUGUI keyBindingsText; // TextMeshProUGUI‚ğg‚¤ê‡
+    [Header("TextMeshProã®å‚ç…§")]
+    [SerializeField] private TextMeshProUGUI keyBindingsText; // TextMeshProUGUIã‚’ä½¿ã†å ´åˆ
 
-    [Header("ƒWƒƒƒ“ƒv‚ÌŒø‰Ê‰¹")]
-    [SerializeField] private AudioClip jumpSound; // ƒWƒƒƒ“ƒv‚Ì‰¹
-    private AudioSource audioSource; // AudioSource‚ğŠi”[
+    [Header("ã‚¸ãƒ£ãƒ³ãƒ—ã®åŠ¹æœéŸ³")]
+    [SerializeField] private AudioClip jumpSound; // ã‚¸ãƒ£ãƒ³ãƒ—æ™‚ã®éŸ³
+    private AudioSource audioSource; // AudioSourceã‚’æ ¼ç´
 
     private bool isGrounded;
     private bool isCrouching;
@@ -33,17 +33,17 @@ public class PlayerController : MonoBehaviour
     private Vector2 originalColliderSize;
     private Vector2 originalColliderOffset;
 
-    private KeyCode moveLeftKey = KeyCode.A;
-    private KeyCode moveRightKey = KeyCode.F;
-    private KeyCode jumpKey = KeyCode.J;
-    private KeyCode crouchKey = KeyCode.L;
+    private KeyCode moveLeftKey = KeyCode.Q;
+    private KeyCode moveRightKey = KeyCode.R;
+    private KeyCode jumpKey = KeyCode.U;
+    private KeyCode crouchKey = KeyCode.P;
 
     void Start()
     {
         if (rb == null) rb = GetComponent<Rigidbody2D>();
         if (boxCollider == null) boxCollider = GetComponent<BoxCollider2D>();
         if (mainCamera == null) mainCamera = Camera.main;
-        if (audioSource == null) audioSource = GetComponent<AudioSource>(); // AudioSource‚ğæ“¾
+        if (audioSource == null) audioSource = GetComponent<AudioSource>(); // AudioSourceã‚’å–å¾—
 
         originalScale = transform.localScale;
 
@@ -85,7 +85,7 @@ public class PlayerController : MonoBehaviour
             }
 
             rb.velocity = new Vector2(rb.velocity.x, jumpForce);
-            PlayJumpSound(); // ƒWƒƒƒ“ƒv‰¹‚ğÄ¶
+            PlayJumpSound(); // ã‚¸ãƒ£ãƒ³ãƒ—éŸ³ã‚’å†ç”Ÿ
         }
 
         if (Input.GetKeyDown(crouchKey))
@@ -136,7 +136,7 @@ public class PlayerController : MonoBehaviour
             }
             else
             {
-                Debug.LogWarning("StageManager.Instance ‚ª‘¶İ‚µ‚Ü‚¹‚ñI");
+                Debug.LogWarning("StageManager.Instance ãŒå­˜åœ¨ã—ã¾ã›ã‚“ï¼");
             }
         }
     }
@@ -167,7 +167,7 @@ public class PlayerController : MonoBehaviour
     {
         if (hiddenObjects == null || hiddenObjects.Length == 0)
         {
-            Debug.LogWarning("•\¦‚³‚¹‚éƒIƒuƒWƒFƒNƒg‚ªİ’è‚³‚ê‚Ä‚¢‚Ü‚¹‚ñI");
+            Debug.LogWarning("è¡¨ç¤ºã•ã›ã‚‹ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆãŒè¨­å®šã•ã‚Œã¦ã„ã¾ã›ã‚“ï¼");
             return;
         }
 
@@ -181,7 +181,7 @@ public class PlayerController : MonoBehaviour
             }
         }
 
-        // ShuffleKeys(); © Cut‚Å‚ÍƒVƒƒƒbƒtƒ‹‚µ‚È‚¢
+        // ShuffleKeys(); â† Cutã§ã¯ã‚·ãƒ£ãƒƒãƒ•ãƒ«ã—ãªã„
 
         gameObject.SetActive(false);
     }
@@ -205,9 +205,9 @@ public class PlayerController : MonoBehaviour
         crouchKey = crouch;
     }
 
-    public void ShuffleKeys()  // public ‚É•ÏX
+    public void ShuffleKeys()  // public ã«å¤‰æ›´
     {
-        List<KeyCode> keys = new List<KeyCode> { KeyCode.A, KeyCode.F, KeyCode.J, KeyCode.L };
+        List<KeyCode> keys = new List<KeyCode> { KeyCode.Q, KeyCode.R, KeyCode.U, KeyCode.P };
         for (int i = 0; i < keys.Count; i++)
         {
             KeyCode temp = keys[i];
@@ -221,7 +221,7 @@ public class PlayerController : MonoBehaviour
         jumpKey = keys[2];
         crouchKey = keys[3];
 
-        Debug.Log($"ƒL[‚ğƒVƒƒƒbƒtƒ‹‚µ‚Ü‚µ‚½I ¶ˆÚ“®: {moveLeftKey}, ‰EˆÚ“®: {moveRightKey}, ƒWƒƒƒ“ƒv: {jumpKey}, ‚µ‚á‚ª‚İ: {crouchKey}");
+        Debug.Log($"ã‚­ãƒ¼ã‚’ã‚·ãƒ£ãƒƒãƒ•ãƒ«ã—ã¾ã—ãŸï¼ å·¦ç§»å‹•: {moveLeftKey}, å³ç§»å‹•: {moveRightKey}, ã‚¸ãƒ£ãƒ³ãƒ—: {jumpKey}, ã—ã‚ƒãŒã¿: {crouchKey}");
     }
 
     public (KeyCode moveLeft, KeyCode moveRight, KeyCode jump, KeyCode crouch) GetCurrentKeyBindings()
@@ -246,7 +246,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    // ƒWƒƒƒ“ƒv‚Ì‰¹‚ğÄ¶‚·‚éƒƒ\ƒbƒh
+    // ã‚¸ãƒ£ãƒ³ãƒ—æ™‚ã®éŸ³ã‚’å†ç”Ÿã™ã‚‹ãƒ¡ã‚½ãƒƒãƒ‰
     private void PlayJumpSound()
     {
         if (audioSource != null && jumpSound != null)

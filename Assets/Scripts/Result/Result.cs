@@ -13,8 +13,8 @@ public class Result : MonoBehaviour
     [SerializeField]
     private List<Sprite> m_TextureList = new List<Sprite>();
 
-    [SerializeField]
-    private TextMeshProUGUI m_TimeText;
+    //[SerializeField]
+    //private TextMeshProUGUI m_TimeText;
     [SerializeField]
     private TextMeshProUGUI m_DeadCountText;
     [SerializeField]
@@ -55,7 +55,7 @@ public class Result : MonoBehaviour
         switch (m_State)
         {
             case ResultState.GAME_RESULT:
-                // ƒQ[ƒ€ƒŠƒUƒ‹ƒg
+                // ã‚²ãƒ¼ãƒ ãƒªã‚¶ãƒ«ãƒˆ
                 if (Input.anyKey && FadeManager.Instance.Status == FadeManager.EnumStatus.End)
                 {
                     m_State = ResultState.SCNARIO_RESULT;
@@ -64,7 +64,7 @@ public class Result : MonoBehaviour
                 break;
 
             case ResultState.SCNARIO_RESULT:
-                // ƒVƒiƒŠƒI
+                // ã‚·ãƒŠãƒªã‚ª
 
                 if (m_WaitTimeCnt <= 0.0f)
                 {
@@ -94,7 +94,7 @@ public class Result : MonoBehaviour
 
                 break;
             case ResultState.END_RESULT:
-                // ‰½‚©ƒNƒŠƒbƒN‚·‚é‚Æ‘JˆÚ‚·‚é
+                // ä½•ã‹ã‚¯ãƒªãƒƒã‚¯ã™ã‚‹ã¨é·ç§»ã™ã‚‹
                 if (Input.anyKey && FadeManager.Instance.Status == FadeManager.EnumStatus.End)
                 {
                     m_SceneManager.ChangeScene(GameSceneManager.GameState.TITLE);
@@ -113,8 +113,8 @@ public class Result : MonoBehaviour
             case ResultState.GAME_RESULT:
                 m_StateObj[0].SetActive(true);
                 m_StateObj[1].SetActive(false);
-                m_TimeText.text = "c‚èŠÔ " + m_SceneManager.m_Time.ToString("F0") + " •b";
-                m_DeadCountText.text = "€‚ñ‚¾‰ñ” " + m_SceneManager.m_DeadCount.ToString() + " ‰ñ";
+                //m_TimeText.text = "æ®‹ã‚Šæ™‚é–“ " + m_SceneManager.m_Time.ToString("F0") + " ç§’";
+                m_DeadCountText.text = "æ­»ã‚“ã å›æ•° " + m_SceneManager.m_DeadCount.ToString() + " å›";
                 break;
             case ResultState.SCNARIO_RESULT:
                 m_StateObj[0].SetActive(false);

@@ -27,24 +27,24 @@ private void Awake()
         if (Instance == null)
         {
             Instance = this;
-            DontDestroyOnLoad(gameObject); // ƒV[ƒ“‚ğ‚Ü‚½‚¢‚Å‚à”jŠü‚³‚ê‚È‚¢
+            DontDestroyOnLoad(gameObject); // ã‚·ãƒ¼ãƒ³ã‚’ã¾ãŸã„ã§ã‚‚ç ´æ£„ã•ã‚Œãªã„
         }
         else
         {
-            Destroy(gameObject); // 2ŒÂ–ÚˆÈ~‚Í©“®‚Å”jŠü‚·‚é
+            Destroy(gameObject); // 2å€‹ç›®ä»¥é™ã¯è‡ªå‹•ã§ç ´æ£„ã™ã‚‹
         }
 
         DontDestroyOnLoad(Instance);
     }
 
-    // ƒV[ƒ“‘JˆÚ(“¯Šú)
+    // ã‚·ãƒ¼ãƒ³é·ç§»(åŒæœŸ)
     private void LoadScene(string sceneName)
     {
         m_PrevSceneName = SceneManager.GetActiveScene().name;
         SceneManager.LoadScene(sceneName);
     }
 
-    // ƒV[ƒ“‘JˆÚ(ƒtƒF[ƒhƒAƒEƒgI—¹Œã‚É‘JˆÚ)
+    // ã‚·ãƒ¼ãƒ³é·ç§»(ãƒ•ã‚§ãƒ¼ãƒ‰ã‚¢ã‚¦ãƒˆçµ‚äº†å¾Œã«é·ç§»)
     public void ChangeScene(GameState state)
     {
         if (m_IsFadeing)
@@ -56,10 +56,10 @@ private void Awake()
         StartCoroutine(WaitFade(state));
     }
 
-    // ƒtƒF[ƒh‘Ò‹@
+    // ãƒ•ã‚§ãƒ¼ãƒ‰å¾…æ©Ÿ
     private IEnumerator WaitFade(GameState state)
     {
-        // ƒtƒF[ƒh‘Ò‹@
+        // ãƒ•ã‚§ãƒ¼ãƒ‰å¾…æ©Ÿ
         while (FadeManager.Instance.Status == FadeManager.EnumStatus.Fading)
         {
             yield return null;

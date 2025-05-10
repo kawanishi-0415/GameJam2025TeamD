@@ -22,20 +22,17 @@ public class StageSceneController : MonoBehaviour
     public EnumStageStatus Status { get; set; } = EnumStageStatus.Init;
 
     public const float SET_CHANGE_TIME = 10f;
-    public const float SET_TIMELIMIT = 300f;
 
     private Camera m_camera = null;
     private PlayerController m_playerObj = null;
     private GameObject m_stageObj = null;
     private Coroutine m_playCoroutine = null;
     public string m_stageName { get; private set; } = "";
-    public int m_deadNum = 0;
-    public float m_timeLimit { get; private set; } = SET_TIMELIMIT;
     public float ChangeTime { get; private set; } = SET_CHANGE_TIME;
     public float m_scrollSpeed { get; private set; } = 1f;
 
 
-    [SerializeField] private Vector3 m_startCameraPos = new Vector3(0f, 0f, -10f);
+    [SerializeField] private Vector3 START_CAMERA_POS = new Vector3(0f, 0f, -10f);
     [SerializeField] private TextMeshProUGUI m_stageText = null;
     [SerializeField] private TextMeshProUGUI m_timeText = null;
     [SerializeField] private OperationController m_operationControlelr = null;
@@ -57,7 +54,7 @@ public class StageSceneController : MonoBehaviour
     {
         // Stage開始
         m_camera = Camera.main;
-        m_camera.transform.position = m_startCameraPos;
+        m_camera.transform.position = START_CAMERA_POS;
         PlayStart();
     }
 
@@ -82,7 +79,7 @@ public class StageSceneController : MonoBehaviour
         Scene currentScene = SceneManager.GetActiveScene();
         if (GameSceneManager.Instance.m_PrevSceneName != currentScene.name)
         {
-            Initialized();
+            StageManager.Instance.LoadSceneStatus = StageManager.EnumLoadSceneStatus.Init;
         }
 
         m_playCoroutine = StartCoroutine(CoLoop());
@@ -119,12 +116,57 @@ public class StageSceneController : MonoBehaviour
         if (m_stageObj != null)
             Destroy(m_stageObj);
 
-        // Stage生成
+        // 初期値設定
+        switch (StageManager.Instance.LoadSceneStatus)
+        {
+            case StageManager.EnumLoadSceneStatus.Init:
+                StageManager.Instance.StageIndex = 0;
+                StageManager.Instance.DeadNum = 0;
+                StageManager.Instance.TimeLimit = StageManager.SET_TIMELIMIT;
+                break;
+            case StageManager.EnumLoadSceneStatus.Dead:
+                break;
+            case StageManager.EnumLoadSceneStatus.Clear:
+                StageManager.Instance.TimeLimit = StageManager.SET_TIMELIMIT;
+                break;
+        }
+        
+        // ステージデータ取得
         SO_StageData stageData = StageManager.Instance.GetStageData();
+        Vector2 startPosition = stageData.playerStartPosition;
+
+        // Stage生成
         m_stageObj = Instantiate(stageData.stagePrefab);
 
+        // プレイヤー位置設定
+        switch (StageManager.Instance.LoadSceneStatus)
+        {
+            case StageManager.EnumLoadSceneStatus.Init:
+                StageManager.Instance.PlayerPosition = stageData.playerStartPosition;
+                break;
+            case StageManager.EnumLoadSceneStatus.Dead:
+                // "Save"レイヤーのLayerMaskを取得
+                int saveLayer = LayerMask.NameToLayer("Save");
+                List<GameObject> saveObjects = new List<GameObject>();
+                FindAllSaveLayerObjects(m_stageObj.transform, saveLayer, saveObjects);
+                foreach (var obj in saveObjects)
+                {
+                    if(StageManager.Instance.PlayerPosition.x >= obj.transform.position.x && startPosition.x <= obj.transform.position.x)
+                    {
+                        startPosition = obj.transform.position;
+                        Vector3 cameraPos = START_CAMERA_POS;
+                        cameraPos.x = obj.transform.position.x;
+                        Camera.main.transform.position = cameraPos;
+                    }
+                }
+                break;
+            case StageManager.EnumLoadSceneStatus.Clear:
+                StageManager.Instance.PlayerPosition = stageData.playerStartPosition;
+                break;
+        }
+
         // Player生成
-        StageSceneController.Instance.CreatePlayer(stageData.playerStartPosition);
+        StageSceneController.Instance.CreatePlayer(startPosition);
         Scene currentScene = SceneManager.GetActiveScene();
         if (GameSceneManager.Instance.m_PrevSceneName == currentScene.name)
         {
@@ -138,7 +180,7 @@ public class StageSceneController : MonoBehaviour
 
         // FadeIn
         FadeManager.Instance.FadeIn();
-        yield return FadeManager.Instance.Status == FadeManager.EnumStatus.End;
+        yield return new WaitUntil(() => FadeManager.Instance.Status == FadeManager.EnumStatus.End);
 
         Status = EnumStageStatus.Playing;
         m_stageName = stageData.stageName;
@@ -150,10 +192,10 @@ public class StageSceneController : MonoBehaviour
     {
         yield return null;
 
-        m_timeLimit -= Time.deltaTime;
-        if (m_timeLimit <= 0f)
+        StageManager.Instance.TimeLimit -= Time.deltaTime;
+        if (StageManager.Instance.TimeLimit <= 0f)
         {
-            m_timeLimit = 0f;
+            StageManager.Instance.TimeLimit = 0f;
             SetTimeOver();
         }
 
@@ -168,13 +210,11 @@ public class StageSceneController : MonoBehaviour
 
     private IEnumerator AsyncPlayerDead()
     {
-        m_deadNum++;
+        StageManager.Instance.DeadNum++;
 
-        // FadeOut
-        FadeManager.Instance.FadeOut();
-        yield return FadeManager.Instance.Status == FadeManager.EnumStatus.End;
+        StageManager.Instance.PlayerPosition = m_playerObj.transform.position;
 
-        ReloadCurrentScene();
+        ReloadCurrentScene(StageManager.EnumLoadSceneStatus.Dead);
         yield return null;
     }
 
@@ -189,7 +229,7 @@ public class StageSceneController : MonoBehaviour
 
         // FadeOut
         FadeManager.Instance.FadeOut();
-        yield return FadeManager.Instance.Status == FadeManager.EnumStatus.End;
+        yield return new WaitUntil(() => FadeManager.Instance.Status == FadeManager.EnumStatus.End);
 
         GameSceneManager.Instance.ChangeScene(GameSceneManager.GameState.TITLE);
         yield return null;
@@ -211,29 +251,19 @@ public class StageSceneController : MonoBehaviour
 
         StageManager.Instance.NextStage();
 
-        // FadeOut
-        FadeManager.Instance.FadeOut();
-        yield return FadeManager.Instance.Status == FadeManager.EnumStatus.End;
-
         if (StageManager.Instance.CheckAllClear())
         {
-            GameSceneManager.Instance.m_DeadCount = m_deadNum;
-            GameSceneManager.Instance.m_Time = m_timeLimit;
+            GameSceneManager.Instance.m_DeadCount = StageManager.Instance.DeadNum;
+            GameSceneManager.Instance.m_Time = StageManager.Instance.TimeLimit;
             GameSceneManager.Instance.ChangeScene(GameSceneManager.GameState.RESULT);
         }
         else
         {
-            ReloadCurrentScene();
+            ReloadCurrentScene(StageManager.EnumLoadSceneStatus.Clear);
         }
         yield return null;
     }
     #endregion // Async
-
-    public void Initialized()
-    {
-        StageManager.Instance.StageIndex = 0;
-        m_timeLimit = SET_TIMELIMIT;
-    }
 
     /// <summary>
     /// Player死亡
@@ -262,9 +292,11 @@ public class StageSceneController : MonoBehaviour
     /// <summary>
     /// シーンを再度ロードする
     /// </summary>
-    public void ReloadCurrentScene()
+    public void ReloadCurrentScene(StageManager.EnumLoadSceneStatus loadSceneStatus)
     {
+        StageManager.Instance.LoadSceneStatus = loadSceneStatus;
         GameSceneManager.Instance.ChangeScene(GameSceneManager.GameState.STAGE);
+        Status = EnumStageStatus.End;
     }
 
 
@@ -293,10 +325,10 @@ public class StageSceneController : MonoBehaviour
         StageManager.Instance.JumpKeyCode = m_playerObj.GetKeyByIndex(2);
         StageManager.Instance.CrouchKeyCode = m_playerObj.GetKeyByIndex(3);
         m_operationControlelr.SetText(
-            StageManager.Instance.LeftKeyCode.ToString(),
-            StageManager.Instance.RightKeyCode.ToString(),
-            StageManager.Instance.JumpKeyCode.ToString(),
-            StageManager.Instance.CrouchKeyCode.ToString());
+            StageManager.Instance.LeftKeyCode,
+            StageManager.Instance.RightKeyCode,
+            StageManager.Instance.JumpKeyCode,
+            StageManager.Instance.CrouchKeyCode);
     }
 
     private void DispStageText()
@@ -308,12 +340,30 @@ public class StageSceneController : MonoBehaviour
     private void DispTimeText()
     {
         m_timeText.enabled = Status == EnumStageStatus.Playing;
-        m_timeText.text = $"残り時間: {Mathf.CeilToInt(m_timeLimit)}";
+        m_timeText.text = $"残り時間: {Mathf.CeilToInt(StageManager.Instance.TimeLimit)}";
     }
 
     private void MoveCamera()
     {
         if (Status != EnumStageStatus.Playing) return;
         m_camera.transform.position += new Vector3(m_scrollSpeed * Time.deltaTime, 0f, 0f);
+    }
+
+    // 再帰的に階層を探索してSaveレイヤーのオブジェクトを取得
+    void FindAllSaveLayerObjects(Transform parent, int saveLayer, List<GameObject> saveObjects)
+    {
+        foreach (Transform child in parent)
+        {
+            if (child.gameObject.layer == saveLayer)
+            {
+                saveObjects.Add(child.gameObject);
+            }
+
+            // 子オブジェクトがある場合は再帰的に探索
+            if (child.childCount > 0)
+            {
+                FindAllSaveLayerObjects(child, saveLayer, saveObjects);
+            }
+        }
     }
 }

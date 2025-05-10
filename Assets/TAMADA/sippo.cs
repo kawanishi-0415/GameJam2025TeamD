@@ -6,26 +6,26 @@ public class sippo : MonoBehaviour
 
     void Start()
     {
-        // Trail Renderer ‚ªƒAƒ^ƒbƒ`‚³‚ê‚Ä‚¢‚é‚©Šm”FA‚È‚¯‚ê‚Î’Ç‰Á
+        // Trail Renderer ãŒã‚¢ã‚¿ãƒƒãƒã•ã‚Œã¦ã„ã‚‹ã‹ç¢ºèªã€ãªã‘ã‚Œã°è¿½åŠ 
         trail = GetComponent<TrailRenderer>();
         if (trail == null)
         {
             trail = gameObject.AddComponent<TrailRenderer>();
         }
 
-        // š ƒgƒŒƒCƒ‹‚ÌŒ©‚½–Úİ’è š
+        // â˜… ãƒˆãƒ¬ã‚¤ãƒ«ã®è¦‹ãŸç›®è¨­å®š â˜…
 
-        // trail ‚Ì’·‚³‚ğˆê’è‚É•Û‚Â‚½‚ßA•\¦ŠÔ‚ğ’Z‚ß‚ÉŒÅ’è
-        trail.time = 1.4f; // ‘¬“x‚É‰‚¶‚Ä’²®i—áF0.3•bŠÔ‚¾‚¯•\¦j
+        // trail ã®é•·ã•ã‚’ä¸€å®šã«ä¿ã¤ãŸã‚ã€è¡¨ç¤ºæ™‚é–“ã‚’çŸ­ã‚ã«å›ºå®š
+        trail.time = 1.4f; // é€Ÿåº¦ã«å¿œã˜ã¦èª¿æ•´ï¼ˆä¾‹ï¼š0.3ç§’é–“ã ã‘è¡¨ç¤ºï¼‰
 
-        // ‘¾‚³ˆê’è
+        // å¤ªã•ä¸€å®š
         AnimationCurve curve = AnimationCurve.Linear(0f, 1f, 1f, 1f);
         trail.widthCurve = curve;
 
-        // ‘S‘Ì‚Ì‘¾‚³”{—¦
+        // å…¨ä½“ã®å¤ªã•å€ç‡
         trail.widthMultiplier = 0.3f;
 
-        // Fi”’¨”’Aí‚É•s“§–¾j
+        // è‰²ï¼ˆç™½â†’ç™½ã€å¸¸ã«ä¸é€æ˜ï¼‰
         Gradient gradient = new Gradient();
         gradient.SetKeys(
             new GradientColorKey[] {
@@ -39,17 +39,17 @@ public class sippo : MonoBehaviour
         );
         trail.colorGradient = gradient;
 
-        // Ş¿i•K{j
+        // æè³ªï¼ˆå¿…é ˆï¼‰
         trail.material = new Material(Shader.Find("Sprites/Default"));
 
-        // ƒfƒtƒHƒ‹ƒg‚Í”ñ•\¦‚É‚µ‚Ä‚¨‚­
+        // ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã¯éè¡¨ç¤ºã«ã—ã¦ãŠã
         trail.emitting = false;
     }
 
     void Update()
     {
-        // “®‚¢‚Ä‚¢‚é‚Æ‚«‚¾‚¯ trail ‚ğ•\¦
-        float move = Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.F) ? 1f : 0f;
+        // å‹•ã„ã¦ã„ã‚‹ã¨ãã ã‘ trail ã‚’è¡¨ç¤º
+        float move = Input.GetKey(KeyCode.Q) || Input.GetKey(KeyCode.R) ? 1f : 0f;
         trail.emitting = move != 0;
     }
 }
